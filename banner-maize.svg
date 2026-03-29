@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" width="480" height="320" role="img" aria-label="Maize field illustration">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e3f2fd"/>
+      <stop offset="55%" stop-color="#fff9e6"/>
+      <stop offset="100%" stop-color="#c8e6c9"/>
+    </linearGradient>
+    <linearGradient id="field" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#81c784"/>
+      <stop offset="100%" stop-color="#2e7d32"/>
+    </linearGradient>
+  </defs>
+  <rect width="480" height="320" fill="url(#sky)"/>
+  <path d="M0 200 Q120 175 240 190 T480 185 V320 H0 Z" fill="url(#field)"/>
+  <ellipse cx="120" cy="210" rx="14" ry="38" fill="#f9a825" opacity="0.9"/>
+  <ellipse cx="118" cy="175" rx="10" ry="28" fill="#fbc02d"/>
+  <ellipse cx="250" cy="205" rx="12" ry="42" fill="#f9a825" opacity="0.92"/>
+  <ellipse cx="248" cy="168" rx="9" ry="30" fill="#fdd835"/>
+  <ellipse cx="360" cy="212" rx="13" ry="36" fill="#f9a825" opacity="0.88"/>
+  <ellipse cx="358" cy="180" rx="10" ry="26" fill="#fbc02d"/>
+  <path d="M115 248 L118 175 M245 250 L248 168 M355 248 L358 180" stroke="#33691e" stroke-width="4" stroke-linecap="round"/>
+</svg>

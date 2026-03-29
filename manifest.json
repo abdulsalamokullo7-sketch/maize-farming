@@ -1,0 +1,50 @@
+{
+  "name": "AgriSmart Uganda",
+  "short_name": "AgriSmart",
+  "description": "Mobile maize farm manager for Uganda: planting, care, timeline, finance, yield, and harvest.",
+  "lang": "en",
+  "dir": "ltr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2e7d32",
+  "orientation": "portrait",
+  "categories": ["business", "lifestyle", "productivity"],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Farm hub",
+      "short_name": "Farm",
+      "description": "Open farm tools and calculators",
+      "url": "./index.html#farm-hub",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Guides",
+      "short_name": "Guides",
+      "description": "Maize reference for Uganda",
+      "url": "./index.html#guides",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ]
+}
