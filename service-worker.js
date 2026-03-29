@@ -1,5 +1,5 @@
 /* AgriSmart — offline shell: precache + network-first with cache fallback */
-const CACHE_NAME = "agri-cache-v24";
+const CACHE_NAME = "agri-cache-v26";
 
 const BASE = new URL(".", self.location.href).href;
 
@@ -10,6 +10,7 @@ function assetUrl(relPath) {
 /** Files next to this script (works in subfolders, not only site root). */
 const PRECACHE_REL = [
   "index.html",
+  "agri-config.js",
   "app.js",
   "manifest.json",
   "favicon.svg",
@@ -25,6 +26,9 @@ function normalizeCacheRequest(request) {
   var path = u.pathname || "";
   if (path.endsWith("/app.js") || path.endsWith("app.js")) {
     return new Request(assetUrl("app.js"), { method: "GET" });
+  }
+  if (path.endsWith("/agri-config.js") || path.endsWith("agri-config.js")) {
+    return new Request(assetUrl("agri-config.js"), { method: "GET" });
   }
   return request;
 }

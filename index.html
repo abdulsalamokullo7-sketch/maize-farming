@@ -1957,6 +1957,7 @@ html.pin-session-unlocked .pin-gate {
     <p id="backupEmailSavedHint" class="hint" hidden>Backup email saved. The daily “add email” banner stops until you remove it.</p>
     <p class="hint" style="margin-top:10px;">After <strong>10:00</strong> each day, if this field is empty, a reminder may appear at the top (tap <strong>×</strong> to hide until tomorrow).</p>
     <button type="button" class="btn-outline" style="margin-top:10px;" onclick="requestCloudBackupRecovery()">Recover using email (needs server)</button>
+    <p class="hint" style="margin-top:10px;margin-bottom:0;">If you use cloud recovery, the email link opens this app and asks for your <strong>PIN</strong> before replacing data (same as restoring a file).</p>
   </div>
 
   <div class="card">
@@ -2028,7 +2029,8 @@ html.pin-session-unlocked .pin-gate {
 <a class="whatsapp" href="https://wa.me/256703268522" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">💬</a>
 </div>
 
-<script src="app.js?v=29" defer></script>
+<script src="agri-config.js?v=1"></script>
+<script src="app.js?v=31" defer></script>
 <!-- script body moved to app.js — avoids mobile browsers mis-parsing </body></html> inside inline script -->
 </body>
 </html>

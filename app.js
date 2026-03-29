@@ -5,6 +5,7 @@ var FARM_PAGE_IDS = [
   "farm-hub", "farm-planting", "farm-care", "farm-timeline", "farm-finance",
   "farm-yield", "farm-harvest", "farm-advice", "farm-reports"
 ];
+var KNOWN_PAGE_IDS = ["home", "guides", "profile"].concat(FARM_PAGE_IDS);
 
 function showPage(pageId) {
   var pages = document.querySelectorAll(".page");
@@ -12,6 +13,9 @@ function showPage(pageId) {
   var t = document.getElementById(pageId);
   if (t) t.classList.add("active");
   window.scrollTo(0, 0);
+  try {
+    if (KNOWN_PAGE_IDS.indexOf(pageId) >= 0) localStorage.setItem(LS_LAST_PAGE, pageId);
+  } catch (e) {}
 
   var navBtn = null;
   if (pageId === "home") navBtn = document.querySelector('.nav button[data-nav="home"]');
@@ -137,6 +141,7 @@ var LS_BACKUP_EMAIL = "agri_backup_email_v1";
 var LS_BACKUP_REMINDER_DISMISS_DATE = "agri_backup_reminder_dismiss_ymd";
 var LS_STALE_BACKUP_BANNER_DISMISS_UNTIL = "agri_stale_backup_dismiss_until_ms";
 var LS_LAST_BACKUP_AT = "agri_last_backup_at_ms";
+var LS_LAST_PAGE = "agriUltimate_last_page_v1";
 
 /**
  * Optional cloud backup / email recovery — requires YOUR HTTPS API with CORS.
@@ -144,8 +149,19 @@ var LS_LAST_BACKUP_AT = "agri_last_backup_at_ms";
  * POST {BASE}/backup  body: { email, backup, client, ts }
  * POST {BASE}/recover-request  body: { email } — server emails magic link / OTP
  * Browsers cannot send or fetch backups from email without a server you control.
+ * Prefer setting URL in agri-config.js (window.AGRI_CONFIG.cloudBackupBaseUrl).
  */
 var AGRI_CLOUD_BACKUP_BASE_URL = "";
+
+function getCloudBackupBaseUrl() {
+  try {
+    if (typeof window !== "undefined" && window.AGRI_CONFIG && window.AGRI_CONFIG.cloudBackupBaseUrl) {
+      var u = String(window.AGRI_CONFIG.cloudBackupBaseUrl || "").trim();
+      if (u) return u.replace(/\/$/, "");
+    }
+  } catch (e) {}
+  return String(AGRI_CLOUD_BACKUP_BASE_URL || "").trim().replace(/\/$/, "");
+}
 
 /** Skip autosave while programmatically filling the form (load farm / season). */
 var suppressFarmAutosave = false;
@@ -435,6 +451,15 @@ function setActiveFarmId(id) {
   if (!safeLocalStorageSetItem(LS_ACTIVE, id)) farmStorageNotifyFail();
 }
 
+function getActiveFarmSnapshot() {
+  var farms = loadFarms();
+  var id = getActiveFarmId();
+  for (var i = 0; i < farms.length; i++) {
+    if (farms[i].id === id) return farms[i].snapshot || {};
+  }
+  return {};
+}
+
 function renderFarmSelect() {
   var farms = loadFarms();
   var sel = document.getElementById("farmSelect");
@@ -472,6 +497,46 @@ function addFarmProfile() {
   loadFarmSnapshotToForm();
 }
 
+function snapshotModuleResultHtml(elementId, placeholderSubstring) {
+  try {
+    var el = document.getElementById(elementId);
+    if (!el) return "";
+    var inner = el.innerHTML;
+    if (!inner || inner.length < 24) return "";
+    if (placeholderSubstring && inner.indexOf(placeholderSubstring) !== -1) return "";
+    return inner;
+  } catch (e) {
+    return "";
+  }
+}
+
+function restoreModuleGlobalsFromSnapshot(sn) {
+  if (!sn) return;
+  if (sn.latestPlannerCost != null) latestPlannerCost = Number(sn.latestPlannerCost) || 0;
+  if (sn.latestTotalExpenses != null) latestTotalExpenses = Number(sn.latestTotalExpenses) || 0;
+  if (sn.latestProfitValue != null) latestProfitValue = Number(sn.latestProfitValue) || 0;
+  if (sn.latestAdviceText != null && String(sn.latestAdviceText).length) latestAdviceText = String(sn.latestAdviceText);
+}
+
+function restoreCachedModuleOutputs(sn) {
+  if (!sn) return;
+  var pairs = [
+    ["uiPlantingHtml", "plantingResult"],
+    ["uiCropCareHtml", "cropCareResult"],
+    ["uiRecordHtml", "recordResult"],
+    ["uiYieldHtml", "yieldPredResult"],
+    ["uiHarvestHtml", "harvestResult"],
+    ["uiAdviceHtml", "adviceResult"]
+  ];
+  for (var i = 0; i < pairs.length; i++) {
+    var html = sn[pairs[i][0]];
+    if (html && typeof html === "string" && html.length > 0) {
+      var node = document.getElementById(pairs[i][1]);
+      if (node) node.innerHTML = html;
+    }
+  }
+}
+
 function collectFormSnapshot() {
   var labourSum = labourCostSumFromForm();
   return {
@@ -506,7 +571,17 @@ function collectFormSnapshot() {
     predPrice: document.getElementById("predPrice").value,
     harvestMethod: document.getElementById("harvestMethod").value,
     harvestGrossBags: document.getElementById("harvestGrossBags").value,
-    harvestMoisture: document.getElementById("harvestMoisture").value
+    harvestMoisture: document.getElementById("harvestMoisture").value,
+    uiPlantingHtml: snapshotModuleResultHtml("plantingResult", "Run analysis for schedule"),
+    uiCropCareHtml: snapshotModuleResultHtml("cropCareResult", "Uses land size and planting"),
+    uiRecordHtml: snapshotModuleResultHtml("recordResult", "Enter figures for totals"),
+    uiYieldHtml: snapshotModuleResultHtml("yieldPredResult", "Expected bags"),
+    uiHarvestHtml: snapshotModuleResultHtml("harvestResult", "Timing, drying"),
+    uiAdviceHtml: snapshotModuleResultHtml("adviceResult", "Spacing, inputs"),
+    latestPlannerCost: latestPlannerCost,
+    latestTotalExpenses: latestTotalExpenses,
+    latestProfitValue: latestProfitValue,
+    latestAdviceText: latestAdviceText
   };
 }
 
@@ -911,9 +986,12 @@ function loadFarmSnapshotToForm() {
         }
         applySnapshot(sn);
         migrateLegacyLabourIntoForm(sn);
+        restoreModuleGlobalsFromSnapshot(sn);
         refreshFinanceLabourLive();
         renderCapitalLogUI();
         updatePlantingNewFarmBanner();
+        restoreCachedModuleOutputs(sn);
+        refreshSummary();
         refreshHubFarmCalendar();
         return;
       }
@@ -961,6 +1039,7 @@ function runPlantingModule() {
     out.innerHTML = moWrap(moSection("Input needed", '<p class="mo-p mo-muted">Enter valid land size (acres).</p>'));
     updatePlantingNewFarmBanner();
     refreshHubFarmCalendar();
+    scheduleFarmAutosave();
     return;
   }
 
@@ -1299,6 +1378,7 @@ function runPlantingModule() {
   refreshSummary();
   saveFarmDataBundle();
   refreshHomeFarmDashboardIfHome();
+  scheduleFarmAutosave();
 }
 
 function syncPredFromPlanting() {
@@ -1374,6 +1454,7 @@ function runCropCareModule() {
       '<p class="hint" style="margin:0;">Future: Weather API adjusts spray &amp; irrigation text by forecast.</p>'
   );
   saveFarmDataBundle();
+  scheduleFarmAutosave();
 }
 
 /* --- 3. Timeline --- */
@@ -1523,6 +1604,7 @@ function buildTimelineAndReminders() {
   }
 
   refreshHubFarmCalendar();
+  scheduleFarmAutosave();
   /* Future PWA: navigator.serviceWorker + push subscription + periodic sync for reminders */
 }
 
@@ -1546,6 +1628,7 @@ function runRecordKeeping() {
   if (!capital || capital <= 0) {
     result.innerHTML = moWrap(moSection("Input needed", '<p class="mo-p mo-muted">Enter valid capital (UGX).</p>'));
     refreshHomeFarmDashboardIfHome();
+    scheduleFarmAutosave();
     return;
   }
   var totalCost = seedCost + fertilizerCost + otherInputs + labourCost + sprayingCost;
@@ -1648,6 +1731,7 @@ function runRecordKeeping() {
   refreshSummary();
   saveFarmDataBundle();
   refreshHomeFarmDashboardIfHome();
+  scheduleFarmAutosave();
 }
 
 function landRough() {
@@ -1695,6 +1779,7 @@ function saveSeasonRecord() {
   runRecordKeeping();
   document.getElementById("recordResult").innerHTML +=
     '<p class="hint" style="margin-top:10px;text-align:center;"><b>Saved locally.</b></p>';
+  scheduleFarmAutosave();
 }
 
 function loadSeasonRecord() {
@@ -1749,6 +1834,7 @@ function runYieldPrediction() {
   if (!land || !price || land <= 0 || price <= 0) {
     out.innerHTML = moWrap(moSection("Input needed", '<p class="mo-p mo-muted">Enter land (acres) and price per 100 kg bag.</p>'));
     refreshHomeFarmDashboardIfHome();
+    scheduleFarmAutosave();
     return;
   }
   var baseBags = land * BASE_BAGS_PER_ACRE;
@@ -1777,6 +1863,7 @@ function runYieldPrediction() {
   refreshSummary();
   saveFarmDataBundle();
   refreshHomeFarmDashboardIfHome();
+  scheduleFarmAutosave();
 }
 
 function farmAdvice(yieldBags, profit) {
@@ -1833,6 +1920,7 @@ function runHarvestModule() {
       netSection
   );
   saveFarmDataBundle();
+  scheduleFarmAutosave();
 }
 
 /* --- 7. Advice engine --- */
@@ -1861,6 +1949,7 @@ function runAdviceEngine() {
   }
   advBody += "</div>";
   document.getElementById("adviceResult").innerHTML = moWrap(moSection("Decision checklist", advBody));
+  scheduleFarmAutosave();
 }
 
 /* --- Dashboard --- */
@@ -2137,6 +2226,39 @@ function initRestoreBackupFileInput() {
   });
 }
 
+/** Open app from email link: ?recoverToken=... or ?token=... (server must return { backup }). */
+function tryApplyCloudRecoveryFromUrl() {
+  try {
+    var baseUrl = getCloudBackupBaseUrl();
+    if (!baseUrl) return;
+    var q = new URLSearchParams(window.location.search);
+    var token = q.get("recoverToken") || q.get("token");
+    if (!token) return;
+    var base = baseUrl;
+    fetch(base + "/recover-complete?token=" + encodeURIComponent(token), {
+      method: "GET",
+      mode: "cors",
+      credentials: "omit"
+    })
+      .then(function (r) {
+        if (!r.ok) throw new Error("bad");
+        return r.json();
+      })
+      .then(function (data) {
+        if (!data || !data.backup || data.backup.backupVersion !== 1) throw new Error("bad");
+        try {
+          var path = window.location.pathname || "/";
+          var hash = window.location.hash || "";
+          history.replaceState(null, "", path + hash);
+        } catch (e2) {}
+        restoreAppDataWithPinFlow(data.backup);
+      })
+      .catch(function () {
+        alert("Recovery link is invalid, expired, or the server is unreachable.");
+      });
+  } catch (e) {}
+}
+
 function isValidEmailLoose(s) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(s || "").trim());
 }
@@ -2235,11 +2357,12 @@ function checkForAppUpdate() {
 }
 
 function tryCloudBackupUpload() {
-  if (!AGRI_CLOUD_BACKUP_BASE_URL || typeof fetch !== "function") return;
+  var baseUrl = getCloudBackupBaseUrl();
+  if (!baseUrl || typeof fetch !== "function") return;
   if (!navigator.onLine) return;
   var email = getBackupEmailStored();
   if (!email) return;
-  var base = AGRI_CLOUD_BACKUP_BASE_URL.replace(/\/$/, "");
+  var base = baseUrl;
   var url = base + "/backup";
   var body = JSON.stringify({
     email: email,
@@ -2268,13 +2391,13 @@ function requestCloudBackupRecovery() {
     alert("Please enter a valid email.");
     return;
   }
-  if (!AGRI_CLOUD_BACKUP_BASE_URL) {
+  if (!getCloudBackupBaseUrl()) {
     alert(
-      "Online recovery by email is not connected in this app build — it needs a secure server (see developer notes in the app code: AGRI_CLOUD_BACKUP_BASE_URL). Until then: use Profile → Restore backup… with a .json file you saved, or email yourself the backup file."
+      "Online recovery by email is not connected — set your API URL in agri-config.js (cloudBackupBaseUrl) or app.js (AGRI_CLOUD_BACKUP_BASE_URL). Until then: use Profile → Restore backup… with a .json file, or email yourself the backup file."
     );
     return;
   }
-  var base = AGRI_CLOUD_BACKUP_BASE_URL.replace(/\/$/, "");
+  var base = getCloudBackupBaseUrl();
   fetch(base + "/recover-request", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -3172,7 +3295,7 @@ window.changeAppPin = changeAppPin;
 window.createOrReplaceRegisteredPhone = createOrReplaceRegisteredPhone;
 
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("service-worker.js?v=24")
+  navigator.serviceWorker.register("service-worker.js?v=26")
     .then(function (reg) { reg.update(); });
 }
 
@@ -3181,6 +3304,7 @@ initAppNavigation();
 initFarmSubNavigation();
 renderFarmSelect();
 loadFarmSnapshotToForm();
+syncProfileBackupEmailField();
 refreshHomeFarmDashboard();
 initPlantingBannerWatch();
 loadSeasonRecord();
@@ -3197,11 +3321,19 @@ checkForAppUpdate();
 tryCloudBackupUpload();
 
 window.addEventListener("load", function () {
+  tryApplyCloudRecoveryFromUrl();
+
   /* Deep links: index.html#guides or #farm */
   var h = (window.location.hash || "").replace(/^#/, "");
   if (h === "guides") showPage("guides");
   else if (h === "farm" || h === "farm-hub") showPage("farm-hub");
   else if (h === "profile") showPage("profile");
+  else {
+    try {
+      var lastPg = localStorage.getItem(LS_LAST_PAGE);
+      if (lastPg && KNOWN_PAGE_IDS.indexOf(lastPg) >= 0 && document.getElementById(lastPg)) showPage(lastPg);
+    } catch (eNav) {}
+  }
 
   var t = localStorage.getItem(LS_TIMELINE);
   if (t) {
@@ -3229,8 +3361,9 @@ window.addEventListener("load", function () {
       }
     } catch (e) {}
   }
+  var snAdvice = getActiveFarmSnapshot();
   var adv = localStorage.getItem(LS_ADVICE);
-  if (adv) {
+  if (adv && !(snAdvice.uiAdviceHtml && String(snAdvice.uiAdviceHtml).length > 0)) {
     latestAdviceText = adv;
     document.getElementById("adviceResult").textContent = adv;
   }
