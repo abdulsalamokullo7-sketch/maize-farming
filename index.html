@@ -507,6 +507,7 @@ button:active { transform: scale(0.98); }
 .hub-cal-link {
   background: none;
   border: none;
+  width: auto;
   padding: 0;
   margin: 0;
   font: inherit;
@@ -1120,6 +1121,7 @@ html.pin-session-unlocked .pin-gate {
   vertical-align: baseline;
 }
 .global-backup-banner__x {
+  width: auto;
   flex-shrink: 0;
   border: none;
   background: transparent;
@@ -1950,15 +1952,15 @@ html.pin-session-unlocked .pin-gate {
 
   <div class="card">
     <div class="module-head"><span class="module-icon">✉️</span><h2 class="module-title">Backup email</h2></div>
-    <p class="module-desc">Save an email you use often. The app stores it only on this device for now and uses it for <strong>reminders</strong>. When the developer turns on a cloud URL, the same email can receive recovery links and automatic uploads (see code: <code>AGRI_CLOUD_BACKUP_BASE_URL</code>).</p>
-    <p class="module-desc" style="margin-top:6px;"><strong>True “type email and get data back”</strong> needs a secure server — browsers cannot pull backups from your inbox by themselves. Until then: use <strong>Download backup</strong> and keep the <code>.json</code> file safe (email it to yourself from your phone’s share menu).</p>
+    <p class="module-desc"><strong>Under maintenance.</strong> Email backup and email recovery are temporarily disabled in this app version.</p>
+    <p class="module-desc" style="margin-top:6px;">For now, use <strong>Download backup</strong> and keep the <code>.json</code> file safe. Use <strong>Restore backup</strong> when needed.</p>
     <label for="backupEmailInput">Your backup email</label>
-    <input id="backupEmailInput" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com">
-    <button type="button" onclick="saveBackupEmailFromProfile()">Save backup email</button>
-    <p id="backupEmailSavedHint" class="hint" hidden>Backup email saved. The daily “add email” banner stops until you remove it.</p>
-    <p class="hint" style="margin-top:10px;">After <strong>10:00</strong> each day, if this field is empty, a reminder may appear at the top (tap <strong>×</strong> to hide until tomorrow).</p>
-    <button type="button" class="btn-outline" style="margin-top:10px;" onclick="requestCloudBackupRecovery()">Recover using email (needs server)</button>
-    <p class="hint" style="margin-top:10px;margin-bottom:0;">If you use cloud recovery, the email link opens this app and asks for your <strong>PIN</strong> before replacing data (same as restoring a file).</p>
+    <input id="backupEmailInput" type="email" inputmode="email" autocomplete="email" placeholder="Under maintenance" disabled>
+    <button type="button" disabled>Email backup under maintenance</button>
+    <p id="backupEmailSavedHint" class="hint" hidden>Email backup is under maintenance.</p>
+    <p class="hint" style="margin-top:10px;">Use local file backup only until email features return.</p>
+    <button type="button" class="btn-outline" style="margin-top:10px;" disabled>Recovery by email under maintenance</button>
+    <p class="hint" style="margin-top:10px;margin-bottom:0;">Recovery currently works via <strong>Restore backup</strong> file only.</p>
   </div>
 
   <div class="card">

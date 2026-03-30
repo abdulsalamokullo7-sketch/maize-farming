@@ -2283,6 +2283,8 @@ function syncProfileBackupEmailField() {
 }
 
 function saveBackupEmailFromProfile() {
+  alert("Backup email is under maintenance for now. Use Download backup / Restore backup file.");
+  return;
   var inp = document.getElementById("backupEmailInput");
   var v = inp ? (inp.value || "").trim() : "";
   if (v && !isValidEmailLoose(v)) {
@@ -2315,13 +2317,7 @@ function dismissDailyBackupReminder() {
 }
 
 function shouldShowDailyBackupEmailReminder() {
-  if (getBackupEmailStored()) return false;
-  try {
-    if (localStorage.getItem(LS_BACKUP_REMINDER_DISMISS_DATE) === todayYmd()) return false;
-  } catch (e) {}
-  var h = new Date().getHours();
-  if (h < 10) return false;
-  return true;
+  return false;
 }
 
 function getLastBackupAtMs() {
@@ -2358,6 +2354,7 @@ function checkForAppUpdate() {
 }
 
 function tryCloudBackupUpload() {
+  return;
   var baseUrl = getCloudBackupBaseUrl();
   if (!baseUrl || typeof fetch !== "function") return;
   if (!navigator.onLine) return;
@@ -2385,37 +2382,7 @@ function tryCloudBackupUpload() {
 }
 
 function requestCloudBackupRecovery() {
-  var email = window.prompt("Enter the email you registered for backups:");
-  if (email == null) return;
-  email = email.trim();
-  if (!email || !isValidEmailLoose(email)) {
-    alert("Please enter a valid email.");
-    return;
-  }
-  if (!getCloudBackupBaseUrl()) {
-    alert(
-      "Online recovery by email is not connected — set your API URL in agri-config.js (cloudBackupBaseUrl) or app.js (AGRI_CLOUD_BACKUP_BASE_URL). Until then: use Profile → Restore backup… with a .json file, or email yourself the backup file."
-    );
-    return;
-  }
-  var base = getCloudBackupBaseUrl();
-  fetch(base + "/recover-request", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email: email }),
-    mode: "cors",
-    credentials: "omit"
-  })
-    .then(function (r) {
-      alert(
-        r.ok
-          ? "If your email is registered, check your inbox for recovery instructions."
-          : "Recovery request failed. Try again later or use a file backup."
-      );
-    })
-    .catch(function () {
-      alert("Network error. Check your connection.");
-    });
+  alert("Email recovery is under maintenance for now. Use Profile -> Restore backup file.");
 }
 
 function refreshGlobalBackupBanners() {
