@@ -572,6 +572,10 @@ function collectFormSnapshot() {
     harvestMethod: document.getElementById("harvestMethod").value,
     harvestGrossBags: document.getElementById("harvestGrossBags").value,
     harvestMoisture: document.getElementById("harvestMoisture").value,
+    farmFreeNotes: (function () {
+      var n = document.getElementById("farmFreeNotes");
+      return n ? n.value : "";
+    })(),
     uiPlantingHtml: snapshotModuleResultHtml("plantingResult", "Run analysis for schedule"),
     uiCropCareHtml: snapshotModuleResultHtml("cropCareResult", "Uses land size and planting"),
     uiRecordHtml: snapshotModuleResultHtml("recordResult", "Enter figures for totals"),
@@ -1975,6 +1979,11 @@ function refreshSummary() {
 function getCleanText(id) {
   var el = document.getElementById(id);
   if (!el) return "—";
+  var tag = (el.tagName || "").toUpperCase();
+  if (tag === "TEXTAREA" || tag === "INPUT") {
+    var v = String(el.value || "").trim();
+    return v || "—";
+  }
   var t = el.innerText.trim();
   return t || "—";
 }
@@ -1982,6 +1991,7 @@ function getCleanText(id) {
 function downloadFarmReport() {
   var reportDate = new Date().toLocaleString();
   var blocks = [
+    { title: "My farm notes", id: "farmFreeNotes" },
     { title: "Planting", id: "plantingResult" },
     { title: "Crop care", id: "cropCareResult" },
     { title: "Timeline (saved)", text: localStorage.getItem(LS_TIMELINE) || "—" },

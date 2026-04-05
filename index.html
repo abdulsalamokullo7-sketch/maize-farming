@@ -1308,6 +1308,9 @@ html.pin-session-unlocked .pin-gate {
     </div>
     <button type="button" class="btn-sm btn-secondary" onclick="saveActiveFarmSnapshot()">Save current data to this farm</button>
     <div class="farm-compare" id="farmCompareWrap"></div>
+    <label for="farmFreeNotes" style="margin-top:14px;">Anything about this farm (free notes)</label>
+    <textarea id="farmFreeNotes" rows="7" maxlength="12000" placeholder="Write anything you want — observations, workers, soil, meetings, plans… Saved with this farm automatically."></textarea>
+    <p class="hint" style="margin-top:4px;">Per active farm. Switch farm above to see each farm’s notes.</p>
   </div>
 
   <div class="card hub-calendar-card">
@@ -2032,7 +2035,7 @@ html.pin-session-unlocked .pin-gate {
 </div>
 
 <script src="agri-config.js?v=1"></script>
-<script src="app.js?v=31" defer></script>
+<script src="app.js?v=32" defer></script>
 <!-- script body moved to app.js — avoids mobile browsers mis-parsing </body></html> inside inline script -->
 </body>
 </html>
