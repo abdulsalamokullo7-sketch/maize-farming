@@ -1,0 +1,12 @@
+{
+  "name": "agri-smart-uganda-backup-api",
+  "private": true,
+  "description": "Cloudflare Worker for AgriSmart Uganda PWA cloud backup",
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev"
+  },
+  "devDependencies": {
+    "wrangler": "^3.99.0"
+  }
+}

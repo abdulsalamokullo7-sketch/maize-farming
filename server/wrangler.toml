@@ -1,0 +1,20 @@
+# Cloudflare Worker — AgriSmart cloud backup
+# 1. Create KV: Dashboard → Workers → KV → Create namespace → copy ID below
+# 2. npx wrangler deploy
+# 3. npx wrangler secret put RESEND_API_KEY   (optional, from resend.com)
+# 4. npx wrangler secret put FROM_EMAIL       (optional, e.g. AgriSmart <backup@yourdomain.com>)
+#
+# Set APP_PUBLIC_URL to your live PWA URL (GitHub Pages) so recovery emails open the app with ?recoverToken=
+
+name = "agri-smart-uganda-backup"
+main = "worker.js"
+compatibility_date = "2024-11-01"
+
+[[kv_namespaces]]
+binding = "BACKUP_KV"
+id = "REPLACE_WITH_YOUR_KV_NAMESPACE_ID"
+
+[vars]
+ALLOWED_ORIGIN = "https://abdulsalamokullo7-sketch.github.io"
+# Full URL to index (or site root) where the app is hosted:
+APP_PUBLIC_URL = "https://abdulsalamokullo7-sketch.github.io/maize-farming/"
