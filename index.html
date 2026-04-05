@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -2034,3 +2035,2043 @@ html.pin-session-unlocked .pin-gate {
 <!-- script body moved to app.js — avoids mobile browsers mis-parsing </body></html> inside inline script -->
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2e7d32">
+<meta name="description" content="AgriSmart Uganda — mobile maize farm manager: planting, crop care, timeline, finance, yield forecasts, and harvest tips for Ugandan farmers. Works offline as a PWA.">
+<meta name="keywords" content="Uganda, maize, farming, agriculture, PWA, farm planner, fertilizer, harvest">
+<meta name="author" content="AgriSmart Uganda">
+<meta name="robots" content="index, follow">
+<meta name="format-detection" content="telephone=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="AgriSmart">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta property="og:title" content="AgriSmart Uganda — Ultimate Maize Manager">
+<meta property="og:description" content="Plan maize from planting to harvest: schedules, costs, yield estimates, and local advice.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AgriSmart Uganda">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>AgriSmart Uganda — Ultimate Maize Manager</title>
+<script>
+(function () {
+  try {
+    if (localStorage.getItem("agriSmart_home_guides_tip_dismissed") === "1") {
+      document.documentElement.classList.add("home-banner-guides-off");
+    }
+    if (localStorage.getItem("agriSmart_home_howto_tip_dismissed") === "1") {
+      document.documentElement.classList.add("home-banner-howto-off");
+    }
+  } catch (e) {}
+})();
+</script>
+<style>
+/* --- Base: mobile-first, max 420px shell --- */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #e8f2e9;
+  color: #1a2e1c;
+}
+.app {
+  max-width: 420px;
+  margin: 0 auto;
+  background: #fff;
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: 76px;
+  box-shadow: 0 0 24px rgba(46, 125, 50, 0.08);
+}
+header {
+  position: sticky;
+  top: 0;
+  z-index: 80;
+  background: linear-gradient(135deg, #2e7d32, #43a047);
+  color: #fff;
+  padding: calc(16px + env(safe-area-inset-top, 0px)) 14px 16px;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+}
+header small {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  opacity: 0.92;
+  margin-top: 4px;
+}
+.page { display: none; padding: 12px 14px 8px; }
+.page.active { display: block; }
+
+/* Planting: optional remembrance is visually separate from the planning card */
+.planting-remembrance-card {
+  border: 1px dashed #a5d6a7;
+  background: #f8fcf8;
+  margin-top: 14px;
+}
+.planting-remembrance-card .module-title {
+  font-size: 1.05rem;
+}
+
+.card {
+  background: #fff;
+  margin: 10px 0;
+  padding: 14px;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.07);
+  border: 1px solid #e3efe4;
+}
+.module-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.module-icon { font-size: 22px; line-height: 1; }
+.module-title { margin: 0; font-size: 16px; color: #1b5e20; }
+.module-desc { margin: 0 0 10px; font-size: 12px; color: #5a6f5c; line-height: 1.4; }
+
+.section-tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  background: #e8f5e9;
+  color: #2e7d32;
+  margin-bottom: 8px;
+}
+
+label { font-size: 12px; font-weight: 600; color: #3d5340; display: block; margin-top: 10px; }
+input, select, textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  margin-top: 4px;
+  border: 1px solid #c8dcc9;
+  border-radius: 10px;
+  font-size: 15px;
+}
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 12px;
+  background: #2e7d32;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+button:active { transform: scale(0.98); }
+.btn-secondary { background: #1b5e20; }
+.btn-outline {
+  background: #fff;
+  color: #2e7d32;
+  border: 2px solid #2e7d32;
+}
+.btn-sm { padding: 8px; font-size: 13px; margin-top: 8px; }
+
+.hint { font-size: 11px; color: #6b7c6d; margin-top: 4px; }
+
+.result-box {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  background: linear-gradient(160deg, #f1faf1, #e6f4e7);
+  border: 1px solid #c5e1c8;
+}
+.result-box.alert {
+  background: linear-gradient(160deg, #fff8e6, #fff3cd);
+  border-color: #e6d4a8;
+}
+.result-title { margin: 0 0 6px; font-size: 12px; font-weight: 700; color: #2e7d32; }
+.result-text { margin: 4px 0; font-size: 13px; line-height: 1.45; color: #2a3d2c; }
+
+/* Generated output (Planting, Crop care, Finance, etc.) */
+.module-output {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 2px;
+}
+.mo-section {
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px;
+  border: 1px solid #cfe9d1;
+  box-shadow: 0 1px 4px rgba(46, 125, 50, 0.06);
+}
+.mo-h {
+  margin: 0 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #e3efe4;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #1b5e20;
+}
+.mo-kpis {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.mo-kpi {
+  background: #f4fbf4;
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid #e0efe1;
+  min-width: 0;
+}
+.mo-kpi-label {
+  display: block;
+  font-size: 10px;
+  color: #5a6f5c;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.mo-kpi-val {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a2e1c;
+  margin-top: 4px;
+  line-height: 1.25;
+  word-break: break-word;
+}
+.mo-p {
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #2a3d2c;
+}
+.mo-p:first-child { margin-top: 0; }
+.mo-muted { color: #6b7c6d; font-style: italic; }
+.mo-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.mo-step {
+  margin-bottom: 8px;
+  padding: 10px 10px 10px 12px;
+  border-radius: 10px;
+  background: #fafdfb;
+  border: 1px solid #e8f2e9;
+  border-left: 3px solid #43a047;
+}
+.mo-step:last-child { margin-bottom: 0; }
+.mo-step-head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+@media (min-width: 340px) {
+  .mo-step-head {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+  }
+}
+.mo-step-title { font-weight: 700; font-size: 13px; color: #1b5e20; line-height: 1.3; }
+.mo-step-when {
+  font-size: 12px;
+  font-weight: 700;
+  color: #2e7d32;
+  flex-shrink: 0;
+}
+.mo-step-body { font-size: 12px; line-height: 1.5; color: #37493a; }
+.mo-callout {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.55;
+  color: #4a4030;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #fffbf0;
+  border: 1px solid #f0e4c4;
+}
+.mo-list {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 12px;
+  line-height: 1.55;
+  color: #2a3d2c;
+}
+.mo-list li { margin: 6px 0; }
+.mo-list--cards {
+  list-style: none;
+  padding-left: 0;
+}
+.mo-list--cards li {
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid #e8dfc8;
+  margin: 6px 0;
+}
+.mo-stack { display: flex; flex-direction: column; gap: 8px; }
+.mo-line { font-size: 12px; line-height: 1.5; color: #2a3d2c; margin: 0; }
+.mo-line strong { color: #1b5e20; }
+
+/* Per-acre / seeds-per-hole recommendation cards */
+.mo-rec-pair {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.mo-rec-card {
+  background: #f8fcf8;
+  border: 1px solid #d4ead6;
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.mo-rec-card--yours {
+  background: #f0f7f1;
+  border-color: #2e7d32;
+  border-width: 2px;
+}
+.mo-rec-h {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 800;
+  color: #1b5e20;
+  line-height: 1.3;
+}
+.mo-rec-table {
+  width: 100%;
+  font-size: 12px;
+  border-collapse: collapse;
+}
+.mo-rec-table th,
+.mo-rec-table td {
+  text-align: left;
+  padding: 6px 4px;
+  border-bottom: 1px solid #e3efe4;
+  vertical-align: top;
+}
+.mo-rec-table th {
+  color: #5a6f5c;
+  font-weight: 600;
+  width: 46%;
+}
+.mo-rec-table tr:last-child th,
+.mo-rec-table tr:last-child td { border-bottom: none; }
+
+.mo-fin-split thead th {
+  font-size: 10px;
+  font-weight: 700;
+  color: #5a6f5c;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.mo-fin-total th,
+.mo-fin-total td {
+  border-top: 2px solid #c5e1c8;
+  padding-top: 10px;
+}
+
+.finance-tabs {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0 14px;
+}
+.finance-tab {
+  flex: 1;
+  margin-top: 0;
+  padding: 10px 8px;
+  border: 2px solid #c8e6c9;
+  border-radius: 10px;
+  background: #f4fbf4;
+  color: #1b5e20;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  line-height: 1.25;
+}
+.finance-tab--active {
+  background: #2e7d32;
+  color: #fff;
+  border-color: #2e7d32;
+}
+.finance-tab-panel[hidden] {
+  display: none !important;
+}
+.capital-log-summary {
+  margin: 12px 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #f0f7f1;
+  border: 1px solid #c5e1c8;
+  font-size: 12px;
+}
+.capital-log-summary strong { color: #1b5e20; }
+.capital-log-list {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 280px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.capital-log-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: start;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #fafdfb;
+  border: 1px solid #e3efe4;
+  font-size: 12px;
+}
+.capital-log-item__meta { color: #5a6f5c; font-size: 11px; font-weight: 600; }
+.capital-log-item__note { margin: 4px 0 0; color: #2a3d2c; line-height: 1.4; }
+.capital-log-item__amt { font-weight: 800; color: #1b5e20; text-align: right; white-space: nowrap; }
+.capital-log-item__del {
+  grid-column: 1 / -1;
+  width: 100%;
+  margin-top: 4px;
+  padding: 8px;
+  font-size: 12px;
+}
+.capital-log-add {
+  padding-top: 4px;
+  border-top: 1px dashed #cfe9d1;
+  margin-top: 8px;
+}
+
+/* New farm — compact start hint on Planting tab */
+.planting-start-banner {
+  margin: 0 0 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: #3d4a3e;
+  background: linear-gradient(135deg, #fff9e6, #f5fbe8);
+  border: 1px solid #e2d9a8;
+}
+.planting-start-banner strong {
+  display: block;
+  font-size: 12px;
+  color: #1b5e20;
+  margin-bottom: 2px;
+}
+.planting-start-banner__line { display: block; }
+
+/* Farm hub — calendar for active farm */
+.hub-cal-mount { min-height: 24px; }
+.hub-cal-farm {
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-weight: 800;
+  color: #1b5e20;
+}
+.hub-cal-acres {
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: #5a6f5c;
+}
+.hub-cal-dapline {
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: #2a3d2c;
+}
+.hub-cal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 320px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.hub-cal-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  border: 1px solid #e3efe4;
+  background: #fafdfb;
+}
+.hub-cal-row--past {
+  opacity: 0.68;
+  background: #f4f4f4;
+  border-color: #e5e5e5;
+}
+.hub-cal-row--today {
+  border: 2px solid #2e7d32;
+  background: #e8f5e9;
+  opacity: 1;
+}
+.hub-cal-row--up {
+  border-left: 3px solid #43a047;
+}
+.hub-cal-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.hub-cal-dap { font-weight: 800; color: #1b5e20; font-size: 11px; letter-spacing: 0.02em; }
+.hub-cal-when { font-size: 11px; color: #5a6f5c; font-weight: 600; }
+.hub-cal-what { font-size: 12px; line-height: 1.4; color: #2a3d2c; }
+.hub-cal-see { margin-top: 10px !important; margin-bottom: 0; }
+.hub-cal-link {
+  background: none;
+  border: none;
+  width: auto;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  font-weight: 700;
+  color: #2e7d32;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.hub-cal-link:active { opacity: 0.8; }
+
+/* Farm hub — calendar as collapsible dropdown */
+.hub-cal-dropdown {
+  margin-top: 10px;
+  border: 2px solid #c5e1c8;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #fff;
+}
+.hub-cal-dropdown-summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 12px 14px;
+  background: linear-gradient(165deg, #e8f5e9, #f1f8f2);
+  -webkit-tap-highlight-color: rgba(46, 125, 50, 0.15);
+}
+.hub-cal-dropdown-summary::-webkit-details-marker { display: none; }
+.hub-cal-dropdown-summary::marker { display: none; }
+.hub-cal-dropdown-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.hub-cal-dropdown-label { font-size: 15px; color: #1b5e20; }
+.hub-cal-dropdown-chev {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #2e7d32;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  transition: transform 0.2s ease;
+}
+.hub-cal-dropdown[open] .hub-cal-dropdown-chev {
+  transform: rotate(180deg);
+}
+.hub-cal-dropdown-hint {
+  display: block;
+  margin-top: 8px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: #fff9e6;
+  border: 1px dashed #d4c48a;
+  font-size: 12px;
+  font-weight: 700;
+  color: #5d4e1f;
+  text-align: center;
+}
+.hub-cal-dropdown-body {
+  padding: 10px 8px 12px;
+  border-top: 1px solid #e3efe4;
+  background: #fafdfb;
+}
+
+.guides-start-callout {
+  background: linear-gradient(145deg, #e8f5e9, #fff9e6);
+  border: 1px solid #c5e1c8;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #2a3d2c;
+}
+.guide-h3 {
+  margin: 12px 0 6px;
+  font-size: 14px;
+  font-weight: 800;
+  color: #1b5e20;
+}
+.guide-procon-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+@media (min-width: 360px) {
+  .guide-procon-wrap { flex-direction: row; align-items: stretch; }
+  .guide-procon-wrap > div { flex: 1; min-width: 0; }
+}
+.guide-procon-col {
+  background: #fafdfb;
+  border: 1px solid #e3efe4;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #2a3d2c;
+}
+.guide-procon-col h4 {
+  margin: 0 0 6px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #1b5e20;
+}
+.guide-procon-col ul { margin: 0; padding-left: 16px; }
+.guide-procon-col li { margin: 4px 0; }
+.home-read-guides-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #fff8e6;
+  border: 1px solid #e6d4a8;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #3d3518;
+}
+.home-read-guides-banner[hidden] { display: none !important; }
+html.home-banner-guides-off #homeReadGuidesBanner,
+html.home-banner-howto-off #homeHowToBanner {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  pointer-events: none !important;
+}
+
+.home-farm-dash { margin-top: 0; }
+.home-farm-dash__body { font-size: 13px; line-height: 1.45; color: #2a3d2c; }
+.home-farm-dash__farm {
+  font-size: 15px;
+  font-weight: 800;
+  color: #1b5e20;
+  margin: 0 0 10px;
+}
+.home-farm-dash__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 10px 0;
+}
+.home-farm-dash__tile {
+  background: #f4fbf4;
+  border: 1px solid #e0efe1;
+  border-radius: 10px;
+  padding: 10px;
+  min-width: 0;
+}
+.home-farm-dash__tile-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  color: #5a6f5c;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.home-farm-dash__tile-val {
+  display: block;
+  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 800;
+  color: #1a2e1c;
+  word-break: break-word;
+}
+.home-farm-dash__tile-val--warn { color: #b71c1c; }
+.home-farm-dash__tile-val--ok { color: #1b5e20; }
+.home-farm-dash__next {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.home-farm-dash__next li {
+  padding: 8px 10px;
+  margin-bottom: 6px;
+  border-radius: 10px;
+  background: #fafdfb;
+  border-left: 3px solid #43a047;
+  font-size: 12px;
+  line-height: 1.4;
+}
+.home-farm-dash__next-meta {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: #2e7d32;
+  margin-bottom: 2px;
+}
+.home-farm-dash__hint { margin: 8px 0 0; font-size: 11px; color: #6b7c6d; }
+.home-read-guides-text {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+}
+.home-read-guides-x {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.08);
+  color: #1a1a1a;
+  font-size: 22px;
+  line-height: 1;
+  font-weight: 300;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+}
+.home-read-guides-x:active { background: rgba(0, 0, 0, 0.15); }
+
+.home-howto-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0 0 12px;
+  padding: 12px 12px;
+  border-radius: 12px;
+  background: linear-gradient(165deg, #e8f5e9, #f7fcf8);
+  border: 2px solid #2e7d32;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #1a2e1c;
+}
+.home-howto-banner[hidden] { display: none !important; }
+.home-howto-inner { flex: 1; min-width: 0; }
+.home-howto-title {
+  margin: 0 0 10px;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.35;
+  color: #1b5e20;
+}
+.home-howto-must {
+  display: block;
+  margin-top: 6px;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  color: #b71c1c;
+}
+.home-howto-steps {
+  margin: 0;
+  padding-left: 20px;
+}
+.home-howto-steps li { margin: 8px 0; }
+.home-howto-steps li::marker { font-weight: 800; color: #2e7d32; }
+
+.profile-howto-card .profile-howto-must {
+  margin: 0 0 12px;
+}
+.profile-howto-card .profile-howto-steps {
+  margin-bottom: 0;
+}
+
+.timeline-list { list-style: none; padding: 0; margin: 8px 0 0; }
+.timeline-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  margin-bottom: 6px;
+  background: #fafdfb;
+  border-radius: 10px;
+  border-left: 4px solid #2e7d32;
+  font-size: 13px;
+}
+.timeline-list li span:last-child { font-weight: 700; color: #1b5e20; white-space: nowrap; margin-left: 8px; }
+
+.calendar-strip {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-top: 8px;
+  font-size: 10px;
+  text-align: center;
+  color: #666;
+}
+.calendar-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #2e7d32;
+  margin: 4px auto 0;
+  opacity: 0.35;
+}
+.calendar-dot.on { opacity: 1; transform: scale(1.2); }
+
+.farm-compare { overflow-x: auto; margin-top: 8px; }
+.farm-compare table { width: 100%; font-size: 11px; border-collapse: collapse; }
+.farm-compare th, .farm-compare td { border: 1px solid #d4e6d5; padding: 6px; text-align: left; }
+
+.status-badge {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.status-profit { background: #e6f7ea; color: #1d7a32; }
+.status-loss { background: #ffebee; color: #c62828; }
+
+.banner {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: 14px;
+  margin-bottom: 8px;
+  display: block;
+  /* Shows instantly while the photo downloads (smaller file than before) */
+  background: linear-gradient(155deg, #a5d6a7 0%, #43a047 45%, #1b5e20 100%);
+}
+
+.nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  background: #fff;
+  border-top: 1px solid #e0e8e1;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
+  z-index: 50;
+}
+.nav button {
+  flex: 1;
+  padding: 10px 4px;
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 11px;
+  font-weight: 600;
+}
+.nav button.active { color: #2e7d32; }
+
+.whatsapp {
+  position: fixed;
+  bottom: 86px;
+  right: max(14px, calc(50% - 190px));
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #25d366;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  text-decoration: none;
+  box-shadow: 0 6px 16px rgba(37, 211, 102, 0.4);
+  z-index: 60;
+}
+
+.premium-note {
+  font-size: 11px;
+  color: #7a8b7c;
+  font-style: italic;
+  margin-top: 10px;
+}
+.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.row-2 > div { min-width: 0; }
+
+/* Consistent page chrome (all main & farm sub-pages) */
+.page-top { margin-bottom: 12px; }
+.page-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1b5e20;
+  letter-spacing: -0.02em;
+}
+.page-lead {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: #5a6f5c;
+  line-height: 1.4;
+}
+.back-farm {
+  width: auto;
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  margin: 0 0 12px;
+  background: #e8f5e9;
+  color: #1b5e20;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid #c8e6c9;
+  border-radius: 999px;
+}
+.back-farm:active { transform: scale(0.98); }
+
+/* Farm hub: equal tiles */
+.hub-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 4px;
+}
+.hub-tile {
+  margin: 0;
+  padding: 16px 10px;
+  min-height: 88px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: linear-gradient(180deg, #f7fcf7, #eef7ef);
+  border: 1px solid #d0e8d2;
+  border-radius: 14px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1b5e20;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(46, 125, 50, 0.06);
+}
+.hub-tile span:first-child { font-size: 26px; line-height: 1; }
+.hub-tile small { font-size: 10px; font-weight: 600; color: #5a6f5c; text-align: center; line-height: 1.25; }
+.hub-tile:active { transform: scale(0.97); }
+
+/* Guides list — match app typography */
+.guide-page-list {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #2a3d2c;
+}
+.guide-page-list li { margin: 8px 0; }
+
+.page .card:first-of-type { margin-top: 0; }
+
+#reminderList { list-style: disc; padding-left: 20px; font-size: 13px; color: #2a3d2c; }
+#reminderList li { margin: 6px 0; }
+
+/* Keyboard focus (accessibility) */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid #2e7d32;
+  outline-offset: 2px;
+}
+
+.noscript-banner {
+  margin: 0;
+  padding: 14px;
+  background: #fff3cd;
+  color: #664d03;
+  text-align: center;
+  font-size: 14px;
+  border-bottom: 2px solid #e6d4a8;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.skip-link:focus {
+  position: fixed;
+  left: 12px;
+  top: 12px;
+  width: auto;
+  height: auto;
+  padding: 10px 14px;
+  background: #2e7d32;
+  color: #fff;
+  z-index: 10000;
+  border-radius: 8px;
+  overflow: visible;
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0,0,0,.2);
+}
+
+/* PIN gate — privacy lock (device-level; not banking-grade) */
+.pin-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 30000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+  background: linear-gradient(165deg, #e8f5e9 0%, #fff 55%, #f1f8f2 100%);
+}
+.pin-gate[hidden] {
+  display: none !important;
+}
+.pin-gate__card {
+  width: 100%;
+  max-width: 360px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 22px 18px;
+  box-shadow: 0 12px 40px rgba(27, 94, 32, 0.15);
+  border: 1px solid #c5e1c8;
+}
+.pin-gate__h {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 800;
+  color: #1b5e20;
+  text-align: center;
+}
+.pin-gate__card label {
+  margin-top: 12px;
+}
+.pin-gate__card input {
+  text-align: center;
+  font-size: 22px;
+  letter-spacing: 0.35em;
+  font-weight: 700;
+}
+.pin-gate__err {
+  min-height: 20px;
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: #c62828;
+  font-weight: 600;
+  text-align: center;
+}
+.pin-gate__card .btn-outline {
+  margin-top: 10px;
+  font-size: 13px;
+}
+html.pin-session-unlocked .pin-gate {
+  display: none !important;
+}
+#pinGateRegisterPhone input,
+#pinGateRecovery #pinResetPhoneInput {
+  letter-spacing: 0.02em;
+  font-size: 16px;
+}
+
+/* Backup / update reminders (dismissible) */
+.global-backup-banners {
+  position: sticky;
+  top: 0;
+  z-index: 70;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 6px 10px 0;
+  margin: 0 -4px;
+  pointer-events: none;
+}
+.global-backup-banners:not([hidden]) > * {
+  pointer-events: auto;
+}
+.global-backup-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 10px 10px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.45;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.global-backup-banner--info {
+  background: #e3f2fd;
+  border: 1px solid #90caf9;
+  color: #0d47a1;
+}
+.global-backup-banner--warn {
+  background: #fff3e0;
+  border: 1px solid #ffb74d;
+  color: #bf360c;
+}
+.global-backup-banner__text {
+  flex: 1;
+  min-width: 0;
+}
+.global-backup-banner__text .hub-cal-link {
+  font-size: inherit;
+  vertical-align: baseline;
+}
+.global-backup-banner__x {
+  width: auto;
+  flex-shrink: 0;
+  border: none;
+  background: transparent;
+  font-size: 22px;
+  line-height: 1;
+  padding: 0 2px;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.75;
+}
+.global-backup-banner__x:hover {
+  opacity: 1;
+}
+</style>
+<script>
+(function () {
+  try {
+    var LS = "agri_pin_tab_unlock_v1";
+    var TAB = "agri_pin_tab_id";
+    var SEAL = "agri_pin_unlock_seal";
+    var LEGACY = "agri_pin_session_unlocked";
+    var tab = sessionStorage.getItem(TAB);
+    if (!tab) {
+      tab = "t_" + Math.random().toString(36).slice(2, 12) + "_" + Date.now().toString(36);
+      sessionStorage.setItem(TAB, tab);
+    }
+    if (sessionStorage.getItem(LEGACY) === "1") {
+      localStorage.setItem(LS, "1");
+      sessionStorage.setItem(SEAL, tab);
+      sessionStorage.removeItem(LEGACY);
+    }
+    if (localStorage.getItem(LS) === "1" && sessionStorage.getItem(SEAL) === tab) {
+      document.documentElement.classList.add("pin-session-unlocked");
+    }
+  } catch (e) {}
+})();
+</script>
+</head>
+<body>
+
+<noscript>
+  <p class="noscript-banner">JavaScript is required for AgriSmart Uganda. Please enable JavaScript in your browser settings.</p>
+</noscript>
+
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<div class="app" id="appRoot" aria-hidden="true">
+<div id="pinGate" class="pin-gate" role="dialog" aria-modal="true" aria-labelledby="pinGateTitle">
+  <div class="pin-gate__card">
+    <div id="pinGateSetup">
+      <h2 class="pin-gate__h" id="pinGateTitle">Create your PIN</h2>
+      <p class="hint" style="margin-top:0;text-align:center;">4 numbers — enter twice to confirm. You will use this to open the app on this device.</p>
+      <label for="pinSetupFirst">PIN</label>
+      <input id="pinSetupFirst" type="password" inputmode="numeric" maxlength="4" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="••••">
+      <label for="pinSetupConfirm">Confirm PIN</label>
+      <input id="pinSetupConfirm" type="password" inputmode="numeric" maxlength="4" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="••••">
+      <button type="button" id="pinSaveBtn">Save PIN</button>
+      <p class="pin-gate__err" id="pinSetupError" aria-live="polite"></p>
+    </div>
+    <div id="pinGateRegisterPhone" hidden>
+      <h2 class="pin-gate__h" id="pinRegisterPhoneTitle">Register your phone number</h2>
+      <p class="hint" style="margin-top:0;text-align:center;">Use the same number you use on WhatsApp or in your phone contacts. Enter it twice. If you forget your PIN, you will enter this number to set a new PIN — your farm data stays on this device.</p>
+      <label for="pinRegPhone1">Phone number</label>
+      <input id="pinRegPhone1" type="tel" inputmode="tel" maxlength="16" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="e.g. 0701234567">
+      <label for="pinRegPhone2">Confirm phone number</label>
+      <input id="pinRegPhone2" type="tel" inputmode="tel" maxlength="16" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="Same number again">
+      <button type="button" id="pinRegPhoneContinueBtn">Save and continue</button>
+      <p class="pin-gate__err" id="pinRegPhoneError" aria-live="polite"></p>
+    </div>
+    <div id="pinGateUnlock" hidden>
+      <h2 class="pin-gate__h" id="pinUnlockTitle">Enter PIN</h2>
+      <p class="hint" style="margin-top:0;text-align:center;">Unlock AgriSmart on this device. After this, refresh keeps you in — new tab, closing the tab, or Lock in Profile asks for the PIN again.</p>
+      <label for="pinUnlockInput" class="sr-only">Enter 4-digit PIN</label>
+      <input id="pinUnlockInput" type="password" inputmode="numeric" maxlength="4" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="••••">
+      <button type="button" id="pinUnlockBtn">Unlock</button>
+      <p class="pin-gate__err" id="pinUnlockError" aria-live="polite"></p>
+      <button type="button" class="btn-outline" id="pinRecoveryModeBtn">Forgot PIN? Reset with phone number</button>
+    </div>
+    <div id="pinGateRecovery" hidden>
+      <h2 class="pin-gate__h" id="pinRecoveryResetTitle">Reset PIN</h2>
+      <p class="hint" style="margin-top:0;text-align:center;">Enter the phone number you registered here, then choose a new PIN.</p>
+      <label for="pinResetPhoneInput">Registered phone number</label>
+      <input id="pinResetPhoneInput" type="tel" inputmode="tel" maxlength="16" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="Same number you saved">
+      <label for="pinRecoveryNew">New PIN</label>
+      <input id="pinRecoveryNew" type="password" inputmode="numeric" maxlength="4" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="••••">
+      <label for="pinRecoveryConfirm">Confirm new PIN</label>
+      <input id="pinRecoveryConfirm" type="password" inputmode="numeric" maxlength="4" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="••••">
+      <button type="button" id="pinRecoverySubmitBtn">Save new PIN</button>
+      <button type="button" class="btn-outline" id="pinRecoveryBackBtn">Back</button>
+      <p class="pin-gate__err" id="pinRecoveryError" aria-live="polite"></p>
+    </div>
+  </div>
+</div>
+<header role="banner">
+  🌽 AgriSmart Uganda
+  <small>Ultimate Smart Maize Farm Manager</small>
+</header>
+
+<div id="globalBackupBanners" class="global-backup-banners" hidden aria-live="polite"></div>
+
+<main id="main-content" role="main" aria-label="App content">
+
+<!-- ========== HOME ========== -->
+<div id="home" class="page active">
+  <div class="page-top">
+    <h1 class="page-title">Home</h1>
+    <p class="page-lead">Uganda maize planning in your pocket.</p>
+  </div>
+  <div class="card home-farm-dash">
+    <span class="section-tag">Active farm</span>
+    <div class="module-head">
+      <span class="module-icon">📋</span>
+      <h2 class="module-title">Important details</h2>
+    </div>
+    <div id="homeFarmDashboardBody" class="home-farm-dash__body" aria-live="polite">
+      <p class="home-farm-dash__hint" style="margin-top:0;">Loading…</p>
+    </div>
+    <div class="row-2" style="margin-top:10px;">
+      <button type="button" class="btn-outline btn-sm" data-nav="farm-hub">Farm manager</button>
+      <button type="button" class="btn-outline btn-sm" data-farm-sub="farm-finance">Finance</button>
+    </div>
+  </div>
+  <div id="homeReadGuidesBanner" class="home-read-guides-banner" role="status">
+    <p class="home-read-guides-text">Please read <button type="button" class="hub-cal-link" data-nav="guides">Guides</button> before using the app (spacing, varieties, pests, and schedule).</p>
+    <button type="button" class="home-read-guides-x" id="homeReadGuidesDismiss" aria-label="Dismiss message">×</button>
+  </div>
+  <div id="homeHowToBanner" class="home-howto-banner" role="region" aria-labelledby="homeHowToHeading">
+    <div class="home-howto-inner">
+      <h2 id="homeHowToHeading" class="home-howto-title">How to use the app</h2>
+      <p class="home-howto-must">MUST READ before usage</p>
+      <ol class="home-howto-steps">
+        <li>Add your farm name — open <button type="button" class="hub-cal-link" data-nav="farm-hub">Farm Manager</button>, then under <strong>Farm profiles</strong> type the name.</li>
+        <li>Save the name — tap <strong>Add farm</strong> (and later use <strong>Save current data to this farm</strong> when you change details).</li>
+        <li>Add planting details in the <strong>Planting</strong> module (date, area, variety, and inputs).</li>
+        <li>That automatically updates all Farm Manager pages for the active farm — <strong>Crop Care</strong>, <strong>Finance</strong>, timeline, calendar, yield, and the rest.</li>
+      </ol>
+    </div>
+    <button type="button" class="home-read-guides-x" id="homeHowToDismiss" aria-label="Dismiss how-to message">×</button>
+  </div>
+  <img class="banner" src="banner-maize.svg" alt="Maize field illustration" width="480" height="320" decoding="async" fetchpriority="low">
+  <div class="card">
+    <div class="module-head">
+      <span class="module-icon">👋</span>
+      <h2 class="module-title">Your digital agronomist</h2>
+    </div>
+    <p class="module-desc">From planting to harvest and money — realistic schedules, quantities, and alerts tuned for Uganda maize.</p>
+    <button type="button" class="btn-secondary" data-nav="farm-hub">Open Farm Manager</button>
+    <button type="button" class="btn-outline" data-nav="guides">Guides &amp; tips</button>
+  </div>
+</div>
+
+<!-- ========== FARM HUB (main Farm tab) ========== -->
+<div id="farm-hub" class="page">
+  <div class="page-top">
+    <h1 class="page-title">Farm manager</h1>
+    <p class="page-lead">Open a module below. Your data stays on this device.</p>
+  </div>
+  <div class="card">
+    <span class="section-tag">Dashboard</span>
+    <div class="module-head">
+      <span class="module-icon">📊</span>
+      <h2 class="module-title">Quick summary</h2>
+    </div>
+    <p id="summary" class="result-text" style="margin:0;"></p>
+  </div>
+
+  <div class="card">
+    <span class="section-tag">Farms</span>
+    <div class="module-head">
+      <span class="module-icon">🏡</span>
+      <h2 class="module-title">Farm profiles</h2>
+    </div>
+    <p class="module-desc">Save multiple farms, switch for comparison. Your inputs for the <strong>active farm</strong> are saved automatically as you type and when you leave the page — use the button below for an explicit save confirmation.</p>
+    <label for="farmSelect">Active farm</label>
+    <select id="farmSelect"></select>
+    <div class="row-2">
+      <div>
+        <label for="newFarmName">New farm name</label>
+        <input id="newFarmName" type="text" placeholder="e.g. Busia Plot A">
+      </div>
+      <div>
+        <label>&nbsp;</label>
+        <button type="button" class="btn-outline btn-sm" onclick="addFarmProfile()">Add farm</button>
+      </div>
+    </div>
+    <button type="button" class="btn-sm btn-secondary" onclick="saveActiveFarmSnapshot()">Save current data to this farm</button>
+    <div class="farm-compare" id="farmCompareWrap"></div>
+  </div>
+
+  <div class="card hub-calendar-card">
+    <span class="section-tag">Calendar</span>
+    <div class="module-head">
+      <span class="module-icon">📅</span>
+      <h2 class="module-title">Farm calendar</h2>
+    </div>
+    <p class="module-desc" style="margin-bottom:4px;">Maize action dates for the <b>active farm</b> (planting date in Planting). Switch farm above to refresh.</p>
+    <details class="hub-cal-dropdown" id="hubCalDetails">
+      <summary class="hub-cal-dropdown-summary" aria-label="Tap to show or hide farm calendar">
+        <div class="hub-cal-dropdown-row">
+          <span class="hub-cal-dropdown-label">📅 <strong>Open calendar</strong></span>
+          <span class="hub-cal-dropdown-chev" aria-hidden="true">▼</span>
+        </div>
+        <span class="hub-cal-dropdown-hint">👆 Tap the bar above to show / hide your schedule</span>
+      </summary>
+      <div class="hub-cal-dropdown-body">
+        <div id="hubFarmCalendar" class="hub-cal-mount"></div>
+      </div>
+    </details>
+  </div>
+
+  <div class="card">
+    <span class="section-tag">Modules</span>
+    <p class="module-desc" style="margin-bottom:10px;">Each section opens on its own screen for easier use on mobile.</p>
+    <div class="hub-grid">
+      <button type="button" class="hub-tile" data-farm-sub="farm-planting"><span>🌱</span><span>Planting</span><small>Schedule &amp; seed</small></button>
+      <button type="button" class="hub-tile" data-farm-sub="farm-care"><span>🌿</span><span>Crop care</span><small>Fert &amp; spray</small></button>
+      <button type="button" class="hub-tile" data-farm-sub="farm-timeline"><span>📅</span><span>Timeline</span><small>Reminders</small></button>
+      <button type="button" class="hub-tile" data-farm-sub="farm-finance"><span>💰</span><span>Finance</span><small>Costs &amp; revenue</small></button>
+      <button type="button" class="hub-tile" data-farm-sub="farm-yield"><span>📈</span><span>Yield &amp; profit</span><small>Forecast</small></button>
+      <button type="button" class="hub-tile" data-farm-sub="farm-harvest"><span>🌽</span><span>Harvest</span><small>Post-harvest</small></button>
+      <button type="button" class="hub-tile" data-farm-sub="farm-advice"><span>🧠</span><span>Advice</span><small>Decisions</small></button>
+      <button type="button" class="hub-tile" data-farm-sub="farm-reports"><span>📄</span><span>Reports</span><small>Print / PDF*</small></button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== FARM SUB-PAGES ========== -->
+<div id="farm-planting" class="page">
+  <button type="button" class="back-farm" data-farm-sub="farm-hub">← Farm menu</button>
+  <div class="page-top">
+    <h1 class="page-title">Planting</h1>
+    <p class="page-lead">Plan land, spacing, and dates — analysis uses <strong>only</strong> the first card. Remembrance is separate (memory only).</p>
+  </div>
+  <div class="card">
+    <span class="section-tag">Plan</span>
+    <div class="module-head">
+      <span class="module-icon">🌱</span>
+      <h2 class="module-title">Planting plan</h2>
+    </div>
+    <div id="plantingNewFarmHint" class="planting-start-banner" role="status" aria-live="polite" hidden></div>
+    <label for="plantLand">Land size (acres)</label>
+    <input id="plantLand" type="number" step="0.1" min="0" placeholder="e.g. 2.5">
+
+    <label for="plantMethod">Planting method</label>
+    <select id="plantMethod">
+      <option value="hoe">Hoe / hand</option>
+      <option value="stick">Planting stick</option>
+      <option value="mech">Mechanized / ripper</option>
+    </select>
+
+    <label for="plantSpacing">Hole spacing</label>
+    <select id="plantSpacing">
+      <option value="1x3">1 ft × 3 ft (~14,500 plants/ac)</option>
+      <option value="2x3">2 ft × 3 ft (~7,200 plants/ac)</option>
+    </select>
+
+    <label for="plantSeedsPerHole">Seeds per hole</label>
+    <input id="plantSeedsPerHole" type="number" min="1" max="3" value="1" placeholder="1 or 2">
+    <p class="hint">1 seed → often hybrid + 1×3 spacing. 2 seeds → often local + 2×3; analysis shows per-acre targets for both.</p>
+
+    <label for="plantDepthCm">Planting depth (cm)</label>
+    <input id="plantDepthCm" type="number" step="0.5" min="0" placeholder="3–5 recommended">
+
+    <label for="plantMonth">Planting month</label>
+    <select id="plantMonth">
+      <option value="">Select month</option>
+      <option>January</option><option>February</option><option>March</option><option>April</option>
+      <option>May</option><option>June</option><option>July</option><option>August</option>
+      <option>September</option><option>October</option><option>November</option><option>December</option>
+    </select>
+
+    <label for="plantVariety">Seed variety</label>
+    <input id="plantVariety" type="text" list="ugVarietyExamples" placeholder="e.g. Longe 10H, DKC 90-89, Longe 5 (OPV)" autocomplete="off">
+    <datalist id="ugVarietyExamples">
+      <option value="Longe 10H"></option>
+      <option value="Longe 9H"></option>
+      <option value="Longe 8H"></option>
+      <option value="Longe 7H"></option>
+      <option value="Longe 11H"></option>
+      <option value="Longe 5"></option>
+      <option value="Longe 4"></option>
+      <option value="Longe 3"></option>
+      <option value="Longe 1"></option>
+      <option value="DKC 90-89"></option>
+      <option value="DKC 80-55"></option>
+      <option value="DKC 80-33"></option>
+      <option value="DKC9089"></option>
+      <option value="Pannar hybrid"></option>
+      <option value="Pioneer hybrid"></option>
+      <option value="Seed Co hybrid"></option>
+      <option value="NAROMAIZE hybrid"></option>
+      <option value="Local OPV"></option>
+      <option value="Local landrace"></option>
+    </datalist>
+
+    <label for="plantingDateMain">Planting date (for schedule)</label>
+    <input id="plantingDateMain" type="date">
+
+    <p class="hint" style="margin-top:12px;">Holes, seed kg, and calendar below come from <strong>this plan only</strong>. Your field diary is in the separate <strong>Planting remembrance</strong> card.</p>
+
+    <button type="button" onclick="runPlantingModule()">Analyze planting plan</button>
+    <div class="result-box" id="plantingResultBox">
+      <p class="result-title">Planting output</p>
+      <div id="plantingResult" class="result-text">Run analysis for schedule, seed kg, spacing advice, and alerts.</div>
+    </div>
+  </div>
+
+  <div class="card planting-remembrance-card">
+    <span class="section-tag">Remembrance</span>
+    <div class="module-head">
+      <span class="module-icon">📝</span>
+      <h2 class="module-title">Planting remembrance</h2>
+    </div>
+    <p class="module-desc">Optional diary for <strong>what you really did</strong> in the field — counts, kg opened, dates, short notes. Saved with this farm. <strong>Not used</strong> for holes, seed math, spacing rules, or the season calendar; those use only the <strong>Planting plan</strong> card above.</p>
+    <div class="row-2">
+      <div>
+        <label for="plantActualHoles">Holes planted (count)</label>
+        <input id="plantActualHoles" type="number" min="0" step="1" placeholder="If you counted">
+      </div>
+      <div>
+        <label for="plantActualSeedKg">Seed opened (kg)</label>
+        <input id="plantActualSeedKg" type="number" min="0" step="0.1" placeholder="Actual kg">
+      </div>
+    </div>
+    <div class="row-2">
+      <div>
+        <label for="plantActualBasalKg">Basal fertiliser used (kg)</label>
+        <input id="plantActualBasalKg" type="number" min="0" step="1" placeholder="Optional">
+      </div>
+      <div>
+        <label for="plantPlantingEndDate">Planting finished (date)</label>
+        <input id="plantPlantingEndDate" type="date">
+      </div>
+    </div>
+    <label for="plantPlantingNotes">Notes (workers, rows, gaps…)</label>
+    <textarea id="plantPlantingNotes" rows="2" placeholder="e.g. 2 days planting, replanted gaps on row 3"></textarea>
+    <p class="hint" style="margin-top:8px;margin-bottom:0;">Tap <strong>Analyze planting plan</strong> above to refresh output; remembrance appears in its own section at the bottom of the results — for memory, not planning.</p>
+  </div>
+</div>
+
+<div id="farm-care" class="page">
+  <button type="button" class="back-farm" data-farm-sub="farm-hub">← Farm menu</button>
+  <div class="page-top">
+    <h1 class="page-title">Crop care</h1>
+    <p class="page-lead">Fertilizer, weeding, spraying, and pest alerts.</p>
+  </div>
+  <div class="card">
+    <span class="section-tag">Crop care</span>
+    <div class="module-head">
+      <span class="module-icon">🌿</span>
+      <h2 class="module-title">Crop care module</h2>
+    </div>
+    <p class="module-desc">Fertilizer, weeding, spray windows, pests — rule-based for Uganda seasons.</p>
+    <button type="button" onclick="runCropCareModule()">Generate crop care plan</button>
+    <div class="result-box" id="cropCareBox">
+      <p class="result-title">Care plan</p>
+      <div id="cropCareResult" class="result-text">Uses land size and planting month from planting section.</div>
+    </div>
+  </div>
+</div>
+
+<div id="farm-timeline" class="page">
+  <button type="button" class="back-farm" data-farm-sub="farm-hub">← Farm menu</button>
+  <div class="page-top">
+    <h1 class="page-title">Timeline</h1>
+    <p class="page-lead">Key dates from your planting day. Saved on this phone.</p>
+  </div>
+  <div class="card">
+    <span class="section-tag">Timeline</span>
+    <div class="module-head">
+      <span class="module-icon">📅</span>
+      <h2 class="module-title">Timeline &amp; reminders</h2>
+    </div>
+    <p class="module-desc">Set planting date under Planting first, then build your list.</p>
+    <button type="button" onclick="buildTimelineAndReminders()">Build timeline &amp; save</button>
+    <ul class="timeline-list" id="timelineVisual"></ul>
+    <p class="hint">Future: push notifications via PWA <code>Notification</code> API when permission granted.</p>
+    <ul id="reminderList" class="guide-page-list" style="margin-top:10px;"></ul>
+  </div>
+</div>
+
+<div id="farm-finance" class="page">
+  <button type="button" class="back-farm" data-farm-sub="farm-hub">← Farm menu</button>
+  <div class="page-top">
+    <h1 class="page-title">Finance</h1>
+    <p class="page-lead">Track capital, spending, and optional revenue.</p>
+  </div>
+  <div class="card">
+    <span class="section-tag">Finance</span>
+    <div class="module-head">
+      <span class="module-icon">💰</span>
+      <h2 class="module-title">Records &amp; finance</h2>
+    </div>
+    <div class="finance-tabs" role="tablist" aria-label="Finance sections">
+      <button type="button" class="finance-tab finance-tab--active" data-finance-tab="overview" role="tab" aria-selected="true" id="financeTabOverviewBtn">Overview</button>
+      <button type="button" class="finance-tab" data-finance-tab="capital" role="tab" aria-selected="false" id="financeTabCapitalBtn">Capital calculation</button>
+    </div>
+
+    <div id="financePanelOverview" class="finance-tab-panel" role="tabpanel" aria-labelledby="financeTabOverviewBtn">
+    <label for="recordCapital">Capital (UGX)</label>
+    <input id="recordCapital" type="number" placeholder="Total cash available">
+    <label for="recordSeedCost">Seed cost (UGX)</label>
+    <input id="recordSeedCost" type="number" placeholder="0">
+    <label for="recordFertilizerCost">Fertilizer cost (UGX)</label>
+    <input id="recordFertilizerCost" type="number" placeholder="0">
+    <label for="recordOtherCosts">Other inputs (UGX)</label>
+    <input id="recordOtherCosts" type="number" placeholder="Transport, bags, tools, hire…">
+    <p class="hint" style="margin-top:2px;">Labour — enter each job; the app sums them for your total.</p>
+    <div class="row-2">
+      <div>
+        <label for="recordLabourDig">Digging / land prep (UGX)</label>
+        <input id="recordLabourDig" type="number" placeholder="0">
+      </div>
+      <div>
+        <label for="recordLabourPlant">Planting (UGX)</label>
+        <input id="recordLabourPlant" type="number" placeholder="0">
+      </div>
+    </div>
+    <div class="row-2">
+      <div>
+        <label for="recordLabourWeed">Weeding &amp; hilling (UGX)</label>
+        <input id="recordLabourWeed" type="number" placeholder="0">
+      </div>
+      <div>
+        <label for="recordLabourHarvest">Harvest labour (UGX)</label>
+        <input id="recordLabourHarvest" type="number" placeholder="0">
+      </div>
+    </div>
+    <label for="recordLabourOther">Other labour (UGX)</label>
+    <input id="recordLabourOther" type="number" placeholder="Casuals, top-dress help, etc.">
+    <p class="hint" id="financeLabourTotalHint">Labour total: <strong id="financeLabourTotalLive">0</strong> UGX</p>
+    <label for="recordSprayingCost">Spraying cost (UGX)</label>
+    <input id="recordSprayingCost" type="number" placeholder="0">
+    <label for="recordRevenue">Revenue to date (UGX, optional)</label>
+    <input id="recordRevenue" type="number" placeholder="0 after sales">
+    <button type="button" onclick="runRecordKeeping()">Update breakdown</button>
+    <button type="button" class="btn-outline" onclick="saveSeasonRecord()">Save season record</button>
+    <div class="result-box" id="recordResultBox">
+      <p class="result-title">Cost breakdown</p>
+      <div id="recordResult" class="result-text">Enter figures for totals, balance, and savings hints.</div>
+    </div>
+    </div>
+
+    <div id="financePanelCapital" class="finance-tab-panel" hidden role="tabpanel" aria-labelledby="financeTabCapitalBtn">
+    <p class="module-desc" style="margin-top:0;">Log each use of money: <b>tools</b> (hoe price + date), <b>paid workers</b>, seed, fertilizer, and more. Saved per farm on this device.</p>
+    <div class="capital-log-add">
+      <label for="capitalLogDate">Date</label>
+      <input id="capitalLogDate" type="date">
+      <label for="capitalLogCategory">Type</label>
+      <select id="capitalLogCategory">
+        <option value="tool">Tool / equipment (hoe, knapsack…)</option>
+        <option value="labour_dig">Paid worker — digging / land prep</option>
+        <option value="labour_plant">Paid worker — planting</option>
+        <option value="labour_weed">Paid worker — weeding / hilling</option>
+        <option value="labour_harvest">Paid worker — harvest</option>
+        <option value="labour_other">Paid worker — other</option>
+        <option value="seed">Seed purchase</option>
+        <option value="fertilizer">Fertilizer</option>
+        <option value="spray">Spray / chemicals</option>
+        <option value="other">Transport, bags, misc.</option>
+      </select>
+      <label for="capitalLogNote">Description</label>
+      <input id="capitalLogNote" type="text" placeholder="e.g. 2 hoes, paid John for weeding">
+      <label for="capitalLogAmount">Amount (UGX)</label>
+      <input id="capitalLogAmount" type="number" min="0" placeholder="0">
+      <button type="button" onclick="addCapitalLogEntry()">Add to log</button>
+    </div>
+    <div id="capitalLogSummary" class="capital-log-summary" aria-live="polite"></div>
+    <ul id="capitalLogList" class="capital-log-list"></ul>
+    <button type="button" class="btn-outline" onclick="applyCapitalLogToFinanceForm()">Fill overview from this log</button>
+    <p class="hint" style="margin-bottom:0;">Sums each type into the matching fields on <b>Overview</b> (replaces those numbers). Capital and revenue are not changed.</p>
+    </div>
+  </div>
+</div>
+
+<div id="farm-yield" class="page">
+  <button type="button" class="back-farm" data-farm-sub="farm-hub">← Farm menu</button>
+  <div class="page-top">
+    <h1 class="page-title">Yield &amp; profit</h1>
+    <p class="page-lead">Forecast bags and money using your land and market price.</p>
+  </div>
+  <div class="card">
+    <span class="section-tag">Prediction</span>
+    <div class="module-head">
+      <span class="module-icon">📈</span>
+      <h2 class="module-title">Yield &amp; profit prediction</h2>
+    </div>
+    <label for="predLand">Land (acres)</label>
+    <input id="predLand" type="number" step="0.1" placeholder="Same as planting or override">
+    <label for="predSpacing">Spacing</label>
+    <select id="predSpacing">
+      <option value="1x3">1×3 ft</option>
+      <option value="2x3">2×3 ft</option>
+    </select>
+    <label for="predVariety">Variety (affects potential)</label>
+    <input id="predVariety" type="text" list="ugVarietyExamples" placeholder="Match planting variety" autocomplete="off">
+    <label for="predPrice">Market price per 100kg bag (UGX)</label>
+    <input id="predPrice" type="number" placeholder="e.g. 120000">
+    <button type="button" onclick="runYieldPrediction()">Predict yield &amp; profit</button>
+    <div class="result-box" id="yieldPredBox">
+      <p class="result-title">Prediction</p>
+      <div id="yieldPredResult" class="result-text">Expected bags, revenue, profit after tracked expenses.</div>
+    </div>
+  </div>
+</div>
+
+<div id="farm-harvest" class="page">
+  <button type="button" class="back-farm" data-farm-sub="farm-hub">← Farm menu</button>
+  <div class="page-top">
+    <h1 class="page-title">Harvest</h1>
+    <p class="page-lead">Harvest method, drying, storage, and net bags.</p>
+  </div>
+  <div class="card">
+    <span class="section-tag">Harvest</span>
+    <div class="module-head">
+      <span class="module-icon">🌽</span>
+      <h2 class="module-title">Harvest &amp; post-harvest</h2>
+    </div>
+    <label for="harvestMethod">Harvest method</label>
+    <select id="harvestMethod">
+      <option value="manual">Manual / hand</option>
+      <option value="hoe">Hoe-assisted</option>
+      <option value="tractor">Tractor / combine</option>
+    </select>
+    <label for="harvestGrossBags">Expected gross yield (bags)</label>
+    <input id="harvestGrossBags" type="number" step="0.1" placeholder="Before storage losses">
+    <label for="harvestMoisture">Target moisture for bagging (%)</label>
+    <input id="harvestMoisture" type="number" step="0.5" placeholder="13–14% safe for storage">
+    <button type="button" onclick="runHarvestModule()">Harvest &amp; storage check</button>
+    <div class="result-box" id="harvestBox">
+      <p class="result-title">Post-harvest output</p>
+      <div id="harvestResult" class="result-text">Timing, drying, storage, net bags after losses.</div>
+    </div>
+  </div>
+</div>
+
+<div id="farm-advice" class="page">
+  <button type="button" class="back-farm" data-farm-sub="farm-hub">← Farm menu</button>
+  <div class="page-top">
+    <h1 class="page-title">Advice</h1>
+    <p class="page-lead">Rule-based tips from your planting and finance inputs.</p>
+  </div>
+  <div class="card">
+    <span class="section-tag">Decisions</span>
+    <div class="module-head">
+      <span class="module-icon">🧠</span>
+      <h2 class="module-title">Farm advice engine</h2>
+    </div>
+    <button type="button" onclick="runAdviceEngine()">Refresh full advice summary</button>
+    <div class="result-box" id="adviceBox">
+      <p class="result-title">Advice summary</p>
+      <div id="adviceResult" class="result-text">Spacing, inputs, risk, profitability — rule-based.</div>
+    </div>
+  </div>
+</div>
+
+<div id="farm-reports" class="page">
+  <button type="button" class="back-farm" data-farm-sub="farm-hub">← Farm menu</button>
+  <div class="page-top">
+    <h1 class="page-title">Reports</h1>
+    <p class="page-lead">Compile timeline, costs, advice, and forecasts for printing.</p>
+  </div>
+  <div class="card">
+    <span class="section-tag">Reports</span>
+    <div class="module-head">
+      <span class="module-icon">📄</span>
+      <h2 class="module-title">Reporting</h2>
+    </div>
+    <button type="button" class="btn-secondary" onclick="downloadFarmReport()">Print / save report</button>
+    <p class="premium-note">Future premium: one-tap PDF export (e.g. jsPDF) + cloud backup.</p>
+  </div>
+</div>
+
+<!-- ========== GUIDES ========== -->
+<div id="guides" class="page">
+  <div class="page-top">
+    <h1 class="page-title">Guides</h1>
+    <p class="page-lead">Read this before Farm Manager — spacing, varieties, and maize science basics for Uganda.</p>
+  </div>
+
+  <div class="guides-start-callout" id="guidesReadFirstCallout">
+    <strong>Read Guides before Farm Manager.</strong> The sections below explain <b>recommended spacing</b> (1×3 vs 2×3), <b>hybrid vs OPV vs local seed</b>, common <b>Uganda variety names</b>, pests, fertiliser timing, and the crop calendar — so the app’s hints match what you plant. AgriSmart uses rule-based estimates; always confirm with <b>extension</b> and your <b>seed bag label</b>.
+  </div>
+
+  <div class="card">
+    <div class="module-head"><span class="module-icon">🌧️</span><h2 class="module-title">Seasons in Uganda</h2></div>
+    <ul class="guide-page-list">
+      <li><b>Long rains:</b> roughly March–May — main planting window in many maize areas; more reliable moisture for germination and top-dressing.</li>
+      <li><b>Short rains:</b> roughly September–October — second window; shorter season and higher drought risk between showers.</li>
+      <li><b>Off-season / dry months:</b> higher water stress; shorter-maturity hybrids or irrigation (where possible) matter more.</li>
+      <li><b>Why it matters:</b> late planting shortens grain fill; dry spells at flowering (tasselling) cut yield sharply.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="module-head"><span class="module-icon">📏</span><h2 class="module-title">Hole spacing: 1×3 ft vs 2×3 ft</h2></div>
+    <p class="module-desc">Population per acre drives competition for water and nutrients. This app uses ~14,500 holes/ac (1×3) and ~7,200 holes/ac (2×3) as planning figures.</p>
+    <div class="guide-procon-wrap">
+      <div class="guide-procon-col">
+        <h4>1 ft × 3 ft (~14,500/ac)</h4>
+        <p><b>Advantages</b></p>
+        <ul>
+          <li>Higher plant stand → more ears per acre if moisture and fertility match.</li>
+          <li>Often paired with <b>hybrids</b> and 1 seed/hole for uniform fields.</li>
+          <li>Can exploit good rains and strong soil.</li>
+        </ul>
+        <p><b>Disadvantages</b></p>
+        <ul>
+          <li>Strong weed pressure — must weed on time.</li>
+          <li>Drought or poor fertiliser → more stress per plant; higher bar for management.</li>
+          <li>More seed and often more spray coverage per acre in practice.</li>
+        </ul>
+      </div>
+      <div class="guide-procon-col">
+        <h4>2 ft × 3 ft (~7,200/ac)</h4>
+        <p><b>Advantages</b></p>
+        <ul>
+          <li>Lower stand → less competition; better fit for drier zones or lower input systems.</li>
+          <li>Common with <b>2 seeds/hole</b> (local/OPV) then thin to the strongest plant.</li>
+          <li>Easier hand labour per hole on some farms.</li>
+        </ul>
+        <p><b>Disadvantages</b></p>
+        <ul>
+          <li>Fewer plants/ac → need good yield per plant to match dense stands.</li>
+          <li>Weeds still critical; wide rows must be kept clean early.</li>
+          <li>If fertiliser is strong, you may “leave yield on the table” vs tighter spacing.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="hint" style="margin-top:10px;">Depth: target <b>3–5 cm</b> in moist soil; deep planting in cold/wet soil slows emergence.</p>
+  </div>
+
+  <div class="card">
+    <div class="module-head"><span class="module-icon">🌽</span><h2 class="module-title">Seed types: hybrids, OPVs &amp; local maize</h2></div>
+    <p class="module-desc">Variety choice affects yield potential, cost, drought tolerance, and whether you can keep seed for next season.</p>
+
+    <h3 class="guide-h3">Commercial hybrids (single-cross, etc.)</h3>
+    <div class="guide-procon-wrap">
+      <div class="guide-procon-col">
+        <h4>Advantages</h4>
+        <ul>
+          <li>Highest yield <b>potential</b> under good management, fertiliser, and rains.</li>
+          <li>Uniform height and maturity → easier spraying and harvest timing.</li>
+          <li>Breeding for disease traits (where tagged on the bag) can help in hotspot areas.</li>
+        </ul>
+      </div>
+      <div class="guide-procon-col">
+        <h4>Disadvantages</h4>
+        <ul>
+          <li><b>Do not rely on farm-saved seed</b> — vigour and yield collapse in F2 seed.</li>
+          <li>Higher seed cost; needs disciplined fertiliser and weed control to pay off.</li>
+          <li>Some hybrids are less forgiving of mid-season drought at flowering.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="hint">This app assumes <b>1 seed/hole</b> for hybrid-style planting.</p>
+
+    <h3 class="guide-h3">OPVs (open-pollinated varieties)</h3>
+    <div class="guide-procon-wrap">
+      <div class="guide-procon-col">
+        <h4>Advantages</h4>
+        <ul>
+          <li>Farmers can often <b>save and select seed</b> for replanting (still renew every few seasons for purity).</li>
+          <li>Lower seed cost per season than many hybrids.</li>
+          <li>More stable under moderate input levels than some hybrids in marginal years.</li>
+        </ul>
+      </div>
+      <div class="guide-procon-col">
+        <h4>Disadvantages</h4>
+        <ul>
+          <li>Lower ceiling yield than top hybrids when inputs and rains are excellent.</li>
+          <li>More plant-to-plant variation; watch rogue off-types when saving seed.</li>
+          <li>Often planted <b>2 seeds/hole</b> then thin — extra labour.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="guide-h3">Local / landrace / “traditional” maize</h3>
+    <div class="guide-procon-wrap">
+      <div class="guide-procon-col">
+        <h4>Advantages</h4>
+        <ul>
+          <li>Adapted to local tastes, storage, or micro-climate over time.</li>
+          <li>Seed saving is normal practice; cash outlay for seed can be minimal.</li>
+        </ul>
+      </div>
+      <div class="guide-procon-col">
+        <h4>Disadvantages</h4>
+        <ul>
+          <li>Yield potential usually below improved OPVs/hybrids in trials.</li>
+          <li>Tall or late types may face more lodging or borer damage.</li>
+          <li>Still needs weed control and fertility to avoid yield collapse.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="module-head"><span class="module-icon">🇺🇬</span><h2 class="module-title">Uganda: common names on seed bags</h2></div>
+    <p class="module-desc">Shops and agro-dealers stock <b>NARO/Longe</b>, <b>multinational hybrids</b> (Dekalb DKC, Pannar, Pioneer, etc.), and <b>regional brands</b>. Names change by season — use this as a checklist, not a catalogue. <b>Always read the bag</b> for maturity, population, and disease tags.</p>
+
+    <h3 class="guide-h3">Longe — know “H” vs numbers only</h3>
+    <ul class="guide-page-list">
+      <li><b>Longe 7H, 8H, 9H, 10H, 11H</b> (and similar) are <b>hybrids</b>: high yield potential, uniform crop, <b>buy fresh certified seed each season</b> — do not replant harvest grain as seed.</li>
+      <li><b>Longe 1, 3, 4, 5</b> are widely sold as <b>OPVs</b>: farmers often <b>save seed</b> for a limited time (still renew for purity); this app treats them like other OPVs → often <b>2 seeds/hole</b> then thin.</li>
+      <li>NARO also releases newer hybrids (e.g. <b>NAROMAIZE</b> / “BH” lines in trials and shops). Treat any bag marked <b>hybrid</b> like other hybrids unless extension says otherwise.</li>
+    </ul>
+
+    <h3 class="guide-h3">Dekalb (DKC) and similar codes</h3>
+    <ul class="guide-page-list">
+      <li><b>DKC</b> codes (e.g. <b>DKC 90-89</b>, <b>DKC 80-55</b>, <b>DKC 80-33</b> — often written without spaces like “DKC9089”) are <b>single-cross type hybrids</b> sold across East Africa. Maturity and heat/drought notes are on the label.</li>
+      <li>Use <b>1 seed/hole</b> with firm spacing and fertility; these varieties need disciplined weed control and fertiliser to pay off.</li>
+    </ul>
+
+    <h3 class="guide-h3">Other brands often seen in Uganda</h3>
+    <ul class="guide-page-list">
+      <li><b>Pannar</b>, <b>Pioneer</b> (e.g. PH / “30” series in some seasons), <b>Seed Co</b>, <b>Corteva</b>-linked lines — all hybrid-style unless the bag clearly says OPV.</li>
+      <li>Regional lines such as <b>Bazooka</b> (UH5051, UH5052, UH5053) and <b>Tego / WE</b> (e.g. WE2101–WE2115 class) appear in some markets; follow bag population and days-to-maturity.</li>
+    </ul>
+    <p class="hint" style="margin-top:10px;">In <b>Planting</b>, type the <b>exact name on your bag</b> (e.g. “Longe 10H”, “DKC 90-89”) so spacing and seed/hole hints match.</p>
+  </div>
+
+  <div class="card">
+    <div class="module-head"><span class="module-icon">🔬</span><h2 class="module-title">Maize science — short notes for the field</h2></div>
+    <ul class="guide-page-list">
+      <li><b>Hybrid vigour:</b> first-generation (F1) seed from controlled crosses grows strongest. Grain from a hybrid field is <b>not</b> the same genetically — replanting it loses yield and uniformity.</li>
+      <li><b>Population:</b> more plants per acre only raise yield if <b>water, N, and weed control</b> keep up; otherwise dense stands run out of moisture at tasselling.</li>
+      <li><b>Critical moisture periods:</b> germination, knee-high to tasselling, and <b>grain fill</b> (milky dough to hard dough). Drought at silking cuts kernels per cob.</li>
+      <li><b>Growth stages (simplified):</b> emerge → vegetative (V-stages) → <b>tassel &amp; silk</b> (flowering) → blister → dough → <b>black layer</b> on the kernel when physiologically mature — harvest timing follows variety and moisture, not only leaf colour.</li>
+      <li><b>Diseases in humid maize belts:</b> <b>Grey leaf spot</b>, northern leaf blight, rust — rotation, residue management, and resistant varieties (where labelled) help; scout continuous maize fields more often.</li>
+      <li><b>Maize streak virus (MSV):</b> vectored by leafhoppers; some varieties carry better tolerance — ask extension for current recommendations in your district.</li>
+      <li><b>Rotation:</b> breaking maize-after-maize reduces some pests and diseases; legumes in the rotation can support the next maize crop when managed well.</li>
+      <li><b>Soil temperature:</b> cold, wet seedbeds delay emergence and favour rots; aim for a warm, moist 3–5 cm depth at planting when rains are reliable.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="module-head"><span class="module-icon">🧪</span><h2 class="module-title">Soil, pH &amp; land prep</h2></div>
+    <ul class="guide-page-list">
+      <li><b>Drainage:</b> maize rots in waterlogged soil — open furrows or ridges on heavy clays where needed.</li>
+      <li><b>pH:</b> very acid soils lock up phosphorus; lime or manure programs are district-specific — test or ask extension.</li>
+      <li><b>Organic matter:</b> manure/compost improves water holding and slow-release nutrients but is not a full substitute for planned NPK on high targets.</li>
+      <li><b>Tillage:</b> aim for a fine, moist seedbed at planting; big clods and trash hurt germination uniformity.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="module-head"><span class="module-icon">💧</span><h2 class="module-title">Water stress &amp; yield</h2></div>
+    <ul class="guide-page-list">
+      <li>Drought at <b>germination</b> → patchy stand; consider replanting gaps (see app timeline).</li>
+      <li>Drought around <b>knee-high to tasselling</b> → direct yield loss; top-dress urea when soil is moist, not on stressed wilting leaves.</li>
+      <li><b>Moisture at grain fill</b> affects final weight per kernel — late drought cuts bags even if the crop “looks green”.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="module-head"><span class="module-icon">🌿</span><h2 class="module-title">Nutrition (NPK) in plain terms</h2></div>
+    <ul class="guide-page-list">
+      <li><b>Nitrogen (N):</b> drives leaf and grain growth — supplied by DAP/compound early and urea/CAN as top-dress (app uses 50+50 kg/ac class planning).</li>
+      <li><b>Phosphorus (P):</b> early root establishment — often in basal DAP/compound; band beside seed, not on seed.</li>
+      <li><b>Potassium (K):</b> stalk strength and stress — many blends include K; severe deficiency shows firing on lower leaves.</li>
+      <li><b>Split application:</b> splitting N reduces leaching risk in heavy rain and matches crop demand; follow local extension for rates.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="module-head"><span class="module-icon">🐛</span><h2 class="module-title">Pests &amp; diseases (short list)</h2></div>
+    <ul class="guide-page-list">
+      <li><b>Fall armyworm (FAW):</b> caterpillars in whorl and on grain — scout from ~3–4 weeks; rotate modes of action per label.</li>
+      <li><b>Stem borers:</b> tunnel in stalks — weak stems, tip damage; systemic insecticides or IPM where promoted.</li>
+      <li><b>Leaf blights (grey leaf spot, NLB, etc.):</b> worse in humid, continuous maize — rotation and resistant varieties help.</li>
+      <li><b>Storage:</b> weevils and mould at &gt;13–14% moisture — dry on tarp, hermetic bags or fumigation only per label.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="module-head"><span class="module-icon">📅</span><h2 class="module-title">Uganda action calendar (summary)</h2></div>
+    <ul class="guide-page-list">
+      <li><b>Day 0:</b> plant; basal DAP/NPK ~50 kg/ac in hole, not touching seed.</li>
+      <li><b>5–10 DAP:</b> check germination; fill gaps.</li>
+      <li><b>14–21 DAP:</b> first weeding.</li>
+      <li><b>21–30 DAP:</b> top dress urea or CAN ~50 kg/ac, 5–8 cm from plant, cover soil.</li>
+      <li><b>28–35 DAP:</b> second weeding + hill soil.</li>
+      <li><b>30–40 &amp; 45–55 DAP:</b> insecticide sprays if pests exceed threshold — follow label (~200 L water/ac, ~10 knapsack loads).</li>
+      <li><b>60–75 DAP:</b> tasselling/silking — avoid unnecessary stress.</li>
+      <li><b>100–120 DAP:</b> harvest window by variety; dry 2–3 weeks; bag near ~13% moisture.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="module-head"><span class="module-icon">⚠️</span><h2 class="module-title">Disclaimer</h2></div>
+    <p class="module-desc">This guide summarises common extension-style recommendations; districts differ in soil, variety performance, and markets. Always confirm rates, chemicals, and varieties with <b>local extension</b>, certified agronomists, and product labels. The app does not replace field scouting or official warnings.</p>
+  </div>
+
+</div>
+
+<!-- ========== PROFILE ========== -->
+<div id="profile" class="page">
+  <div class="page-top">
+    <h1 class="page-title">Profile</h1>
+    <p class="page-lead">Support and account options.</p>
+  </div>
+  <div class="card profile-howto-card">
+    <div class="module-head"><span class="module-icon">📋</span><h2 class="module-title">How to use the app</h2></div>
+    <p class="home-howto-must profile-howto-must">MUST READ before usage</p>
+    <ol class="home-howto-steps profile-howto-steps">
+      <li>Add your farm name — open <button type="button" class="hub-cal-link" data-nav="farm-hub">Farm Manager</button>, then under <strong>Farm profiles</strong> type the name.</li>
+      <li>Save the name — tap <strong>Add farm</strong> (and later use <strong>Save current data to this farm</strong> when you change details).</li>
+      <li>Add planting details in the <strong>Planting</strong> module (date, area, variety, and inputs).</li>
+      <li>That automatically updates all Farm Manager pages for the active farm — <strong>Crop Care</strong>, <strong>Finance</strong>, timeline, calendar, yield, and the rest.</li>
+    </ol>
+  </div>
+  <div class="card">
+    <div class="module-head"><span class="module-icon">🔐</span><h2 class="module-title">App lock (PIN)</h2></div>
+    <p class="module-desc">Use a 4-digit PIN to open the app. After you unlock, you stay open when you <strong>refresh the page</strong> in this tab. Closing the tab, opening the site in a <strong>new tab</strong>, or fully closing the browser / PWA usually clears that session — you’ll need the PIN again. Use <strong>Lock app now</strong> when you hand the phone to someone else. Register a <strong>phone number</strong> when you set up — if you forget your PIN, enter that same number to set a new PIN. Nothing is sent to a server; the number is stored only on this device (hashed).</p>
+    <button type="button" class="btn-secondary" onclick="lockAppNow()">Lock app now</button>
+    <p class="hint" style="margin-top:10px;">Changed your number? Update it here (you need your current PIN).</p>
+    <button type="button" class="btn-outline" onclick="createOrReplaceRegisteredPhone()">Update registered phone</button>
+    <p class="hint" style="margin-top:12px;"><strong>Change PIN</strong> — enter current PIN, then new PIN twice.</p>
+    <label for="pinChangeOld">Current PIN</label>
+    <input id="pinChangeOld" type="password" inputmode="numeric" maxlength="4" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="••••">
+    <label for="pinChangeNew">New PIN</label>
+    <input id="pinChangeNew" type="password" inputmode="numeric" maxlength="4" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="••••">
+    <label for="pinChangeConfirm">Confirm new PIN</label>
+    <input id="pinChangeConfirm" type="password" inputmode="numeric" maxlength="4" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="••••">
+    <button type="button" class="btn-outline" onclick="changeAppPin()">Save new PIN</button>
+  </div>
+
+  <div class="card">
+    <div class="module-head"><span class="module-icon">✉️</span><h2 class="module-title">Backup email</h2></div>
+    <p class="module-desc"><strong>Under maintenance.</strong> Email backup and email recovery are temporarily disabled in this app version.</p>
+    <p class="module-desc" style="margin-top:6px;">For now, use <strong>Download backup</strong> and keep the <code>.json</code> file safe. Use <strong>Restore backup</strong> when needed.</p>
+    <label for="backupEmailInput">Your backup email</label>
+    <input id="backupEmailInput" type="email" inputmode="email" autocomplete="email" placeholder="Under maintenance" disabled>
+    <button type="button" disabled>Email backup under maintenance</button>
+    <p id="backupEmailSavedHint" class="hint" hidden>Email backup is under maintenance.</p>
+    <p class="hint" style="margin-top:10px;">Use local file backup only until email features return.</p>
+    <button type="button" class="btn-outline" style="margin-top:10px;" disabled>Recovery by email under maintenance</button>
+    <p class="hint" style="margin-top:10px;margin-bottom:0;">Recovery currently works via <strong>Restore backup</strong> file only.</p>
+  </div>
+
+  <div class="card">
+    <div class="module-head"><span class="module-icon">💾</span><h2 class="module-title">Data on this device</h2></div>
+    <p class="module-desc">Farm records are saved in the browser as <strong>site data</strong> (localStorage), not as throwaway “temp files” only. On both <strong>phone and laptop</strong> they normally stay after refresh, closing the tab, and restarting the browser — the app also <strong>autosaves</strong> as you type.</p>
+    <ul class="guide-page-list" style="margin-top:8px;">
+      <li><strong>Usually still there:</strong> reload, normal close/reopen, and many “clear cache” options that <em>do not</em> include cookies/site data.</li>
+      <li><strong>Can erase data:</strong> choosing <strong>clear data for this site</strong> / cookies, some “free up space” cleanups, private mode when it ends, or <strong>Clear app data</strong> below.</li>
+      <li><strong>Protect yourself:</strong> tap <strong>Download backup</strong> sometimes and keep the <code>.json</code> file safe (Files, Drive, email). Use <strong>Restore backup</strong> if you ever lose data.</li>
+    </ul>
+    <div class="row-2" style="margin-top:12px;">
+      <button type="button" onclick="downloadAppDataBackup()">Download backup</button>
+      <button type="button" class="btn-outline" onclick="document.getElementById('restoreBackupFile').click()">Restore backup…</button>
+    </div>
+    <input type="file" id="restoreBackupFile" accept="application/json,.json,application/octet-stream" hidden aria-hidden="true">
+    <p class="hint" style="margin-top:10px;margin-bottom:0;">The backup file does <strong>not</strong> contain your PIN. Restore asks for your PIN if one is set.</p>
+  </div>
+
+  <div class="card">
+    <div class="module-head"><span class="module-icon">📞</span><h2 class="module-title">Contact developer</h2></div>
+    <p class="module-desc">Same number for <strong>call</strong> and <strong>WhatsApp</strong> — questions, feedback, or support.</p>
+    <p class="profile-dev-number" style="font-size:1.25rem;font-weight:700;letter-spacing:0.03em;margin:10px 0;color:#1b5e20;">0703&nbsp;268&nbsp;522</p>
+    <div class="row-2" style="margin-top:8px;">
+      <button type="button" class="btn-secondary" onclick="contactCallDeveloper()">Call</button>
+      <button type="button" onclick="contact()">WhatsApp</button>
+    </div>
+    <p class="premium-note" style="margin-top:12px;">International: +256&nbsp;703&nbsp;268&nbsp;522</p>
+  </div>
+
+  <div class="card profile-danger-card" style="border:1px solid #e57373;background:#fff8f7;">
+    <div class="module-head"><span class="module-icon">🗑️</span><h2 class="module-title">Clear app data</h2></div>
+    <p class="module-desc">Removes <strong>everything</strong> stored by this app on this device: all farms, finance and capital log, timeline, advice cache, home tips state, your <strong>PIN</strong>, and registered phone (for PIN reset). You will set up like a new install. Requires your PIN if one is already saved.</p>
+    <button type="button" class="btn-secondary" onclick="clearAppDataWithPinConfirm()" style="border-color:#c62828;color:#b71c1c;">Clear all app data…</button>
+  </div>
+
+  <div class="card">
+    <div class="module-head"><span class="module-icon">ℹ️</span><h2 class="module-title">About this app</h2></div>
+    <p class="module-desc">AgriSmart Uganda helps you plan maize using rule-based estimates. It does not replace extension officers, agronomists, or official weather and market data.</p>
+    <p class="hint" style="margin-top:8px;"><b>Version</b> 1.1.0 · PWA-ready · Data stored on this device only</p>
+  </div>
+
+  <div class="card">
+    <div class="module-head"><span class="module-icon">🔒</span><h2 class="module-title">Privacy</h2></div>
+    <p class="module-desc">Farm figures and reminders are saved in your browser (localStorage). Nothing is sent to our servers unless you tap Call/WhatsApp, open an external link, or the developer enables <strong>cloud backup</strong> (then uploads go only to that URL). Use <strong>Download backup</strong> to keep a copy off the phone or laptop. To wipe everything on this device, use <strong>Clear app data</strong> (PIN required if set).</p>
+  </div>
+
+  <div class="card">
+    <div class="module-head"><span class="module-icon">💡</span><h2 class="module-title">Tips</h2></div>
+    <ul class="guide-page-list">
+      <li>Add this site to your home screen for an app-like experience.</li>
+      <li>Use the floating chat button or Profile → <strong>Contact developer</strong> (0703&nbsp;268&nbsp;522 — call or WhatsApp).</li>
+      <li>Use “Print / save report” under Farm → Reports for a paper copy.</li>
+      <li>Profile → <strong>Download backup</strong> saves your farms to a file — useful before phone cleanups or updates.</li>
+      <li>Profile → <strong>Backup email</strong>: saves your address on the device for reminders; when a cloud URL is enabled, it can drive recovery and auto-upload.</li>
+    </ul>
+  </div>
+</div>
+
+</main>
+
+<!-- NAV -->
+<nav class="nav" aria-label="Main navigation">
+  <button type="button" data-nav="home" class="active" aria-current="page">🏠 Home</button>
+  <button type="button" data-nav="farm-hub">🌾 Farm</button>
+  <button type="button" data-nav="guides">📚 Guides</button>
+  <button type="button" data-nav="profile">👤 Profile</button>
+</nav>
+
+<a class="whatsapp" href="https://wa.me/256703268522" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">💬</a>
+</div>
+
+<script src="agri-config.js?v=1"></script>
+<script src="app.js?v=31" defer></script>
+<!-- script body moved to app.js — avoids mobile browsers mis-parsing </body></html> inside inline script -->
+</body>
+</html>
+>>>>>>> c16c8b1 (Disable email backup/recovery UI while under maintenance.)
